@@ -14,7 +14,7 @@ async function pollOnce(config: WorkerConfig): Promise<void> {
   if (!job) return;
 
   try {
-    await processJob(job);
+    await processJob(job, config);
   } catch (err) {
     await handleJobFailure(job, config, err);
   }

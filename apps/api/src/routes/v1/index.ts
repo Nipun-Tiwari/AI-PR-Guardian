@@ -3,6 +3,7 @@ import type { Request, Response } from 'express';
 import { demoRouter } from './demo.js';
 import { authRouter } from './auth.js';
 import { repositoriesRouter } from './repositories.js';
+import { reviewsRouter } from './reviews.js';
 
 export const v1Router = Router();
 
@@ -13,3 +14,4 @@ v1Router.get('/', (_req: Request, res: Response) => {
 v1Router.use('/demo', demoRouter);
 v1Router.use('/auth', authRouter);
 v1Router.use('/repositories', repositoriesRouter);
+v1Router.use('/reviews', reviewsRouter);

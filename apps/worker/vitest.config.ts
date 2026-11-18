@@ -13,6 +13,10 @@ export default defineConfig({
       WORKER_MAX_ATTEMPTS: '3',
       WORKER_LEASE_SECONDS: '10',
       WORKER_JOB_TIMEOUT_SECONDS: '30',
+      GITHUB_APP_ID: '12345',
+      GITHUB_APP_PRIVATE_KEY: 'dGVzdF9kdW1teV9wcml2YXRlX2tleQ==',
+      GITHUB_API_VERSION: '2022-11-28',
+      STATIC_ANALYSIS_ENABLED: 'true',
     },
   },
 });

@@ -15,8 +15,11 @@
   },
   "dependencies": {
     "@prguardian/database": "*",
+    "@prguardian/diff-engine": "*",
+    "@prguardian/github-client": "*",
     "@prguardian/observability": "*",
     "@prguardian/shared": "*",
+    "@prguardian/static-analysis": "*",
     "zod": "^3.23.0"
   },
   "devDependencies": {

@@ -188,6 +188,50 @@ exports.Prisma.ReviewJobScalarFieldEnum = {
   completedAt: 'completedAt'
 };
 
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  mode: 'mode',
+  status: 'status',
+  repositoryId: 'repositoryId',
+  githubRepositoryId: 'githubRepositoryId',
+  owner: 'owner',
+  name: 'name',
+  prNumber: 'prNumber',
+  prTitle: 'prTitle',
+  prUrl: 'prUrl',
+  headSha: 'headSha',
+  jobId: 'jobId',
+  findingsTotal: 'findingsTotal',
+  findingsCritical: 'findingsCritical',
+  findingsHigh: 'findingsHigh',
+  findingsMedium: 'findingsMedium',
+  findingsLow: 'findingsLow',
+  findingsInfo: 'findingsInfo',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FindingScalarFieldEnum = {
+  id: 'id',
+  reviewId: 'reviewId',
+  source: 'source',
+  category: 'category',
+  severity: 'severity',
+  confidence: 'confidence',
+  filePath: 'filePath',
+  lineStart: 'lineStart',
+  lineEnd: 'lineEnd',
+  message: 'message',
+  evidence: 'evidence',
+  recommendation: 'recommendation',
+  validationStatus: 'validationStatus',
+  fingerprint: 'fingerprint',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -224,13 +268,65 @@ exports.ReviewJobStatus = exports.$Enums.ReviewJobStatus = {
   failed: 'failed'
 };
 
+exports.ReviewMode = exports.$Enums.ReviewMode = {
+  demo: 'demo',
+  live: 'live'
+};
+
+exports.ReviewStatus = exports.$Enums.ReviewStatus = {
+  queued: 'queued',
+  running: 'running',
+  succeeded: 'succeeded',
+  failed: 'failed',
+  cancelled: 'cancelled',
+  partial: 'partial'
+};
+
+exports.FindingSource = exports.$Enums.FindingSource = {
+  demo_fixture: 'demo_fixture',
+  static_rule: 'static_rule',
+  llm: 'llm'
+};
+
+exports.FindingCategory = exports.$Enums.FindingCategory = {
+  security: 'security',
+  bug: 'bug',
+  error_handling: 'error_handling',
+  performance: 'performance',
+  test_coverage: 'test_coverage',
+  style: 'style'
+};
+
+exports.FindingSeverity = exports.$Enums.FindingSeverity = {
+  critical: 'critical',
+  high: 'high',
+  medium: 'medium',
+  low: 'low',
+  info: 'info'
+};
+
+exports.FindingConfidence = exports.$Enums.FindingConfidence = {
+  high: 'high',
+  medium: 'medium',
+  low: 'low'
+};
+
+exports.FindingValidationStatus = exports.$Enums.FindingValidationStatus = {
+  valid: 'valid',
+  invalid_location: 'invalid_location',
+  low_confidence: 'low_confidence',
+  rejected: 'rejected'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Repository: 'Repository',
   RepositoryInstallation: 'RepositoryInstallation',
   WebhookDelivery: 'WebhookDelivery',
-  ReviewJob: 'ReviewJob'
+  ReviewJob: 'ReviewJob',
+  Review: 'Review',
+  Finding: 'Finding'
 };
 
 /**

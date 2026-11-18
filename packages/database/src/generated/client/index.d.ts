@@ -43,6 +43,16 @@ export type WebhookDelivery = $Result.DefaultSelection<Prisma.$WebhookDeliveryPa
  * 
  */
 export type ReviewJob = $Result.DefaultSelection<Prisma.$ReviewJobPayload>
+/**
+ * Model Review
+ * 
+ */
+export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
+/**
+ * Model Finding
+ * 
+ */
+export type Finding = $Result.DefaultSelection<Prisma.$FindingPayload>
 
 /**
  * Enums
@@ -65,6 +75,77 @@ export const ReviewJobStatus: {
 
 export type ReviewJobStatus = (typeof ReviewJobStatus)[keyof typeof ReviewJobStatus]
 
+
+export const ReviewMode: {
+  demo: 'demo',
+  live: 'live'
+};
+
+export type ReviewMode = (typeof ReviewMode)[keyof typeof ReviewMode]
+
+
+export const ReviewStatus: {
+  queued: 'queued',
+  running: 'running',
+  succeeded: 'succeeded',
+  failed: 'failed',
+  cancelled: 'cancelled',
+  partial: 'partial'
+};
+
+export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+
+
+export const FindingSource: {
+  demo_fixture: 'demo_fixture',
+  static_rule: 'static_rule',
+  llm: 'llm'
+};
+
+export type FindingSource = (typeof FindingSource)[keyof typeof FindingSource]
+
+
+export const FindingCategory: {
+  security: 'security',
+  bug: 'bug',
+  error_handling: 'error_handling',
+  performance: 'performance',
+  test_coverage: 'test_coverage',
+  style: 'style'
+};
+
+export type FindingCategory = (typeof FindingCategory)[keyof typeof FindingCategory]
+
+
+export const FindingSeverity: {
+  critical: 'critical',
+  high: 'high',
+  medium: 'medium',
+  low: 'low',
+  info: 'info'
+};
+
+export type FindingSeverity = (typeof FindingSeverity)[keyof typeof FindingSeverity]
+
+
+export const FindingConfidence: {
+  high: 'high',
+  medium: 'medium',
+  low: 'low'
+};
+
+export type FindingConfidence = (typeof FindingConfidence)[keyof typeof FindingConfidence]
+
+
+export const FindingValidationStatus: {
+  valid: 'valid',
+  invalid_location: 'invalid_location',
+  low_confidence: 'low_confidence',
+  rejected: 'rejected'
+};
+
+export type FindingValidationStatus = (typeof FindingValidationStatus)[keyof typeof FindingValidationStatus]
+
 }
 
 export type InstallationStatus = $Enums.InstallationStatus
@@ -74,6 +155,34 @@ export const InstallationStatus: typeof $Enums.InstallationStatus
 export type ReviewJobStatus = $Enums.ReviewJobStatus
 
 export const ReviewJobStatus: typeof $Enums.ReviewJobStatus
+
+export type ReviewMode = $Enums.ReviewMode
+
+export const ReviewMode: typeof $Enums.ReviewMode
+
+export type ReviewStatus = $Enums.ReviewStatus
+
+export const ReviewStatus: typeof $Enums.ReviewStatus
+
+export type FindingSource = $Enums.FindingSource
+
+export const FindingSource: typeof $Enums.FindingSource
+
+export type FindingCategory = $Enums.FindingCategory
+
+export const FindingCategory: typeof $Enums.FindingCategory
+
+export type FindingSeverity = $Enums.FindingSeverity
+
+export const FindingSeverity: typeof $Enums.FindingSeverity
+
+export type FindingConfidence = $Enums.FindingConfidence
+
+export const FindingConfidence: typeof $Enums.FindingConfidence
+
+export type FindingValidationStatus = $Enums.FindingValidationStatus
+
+export const FindingValidationStatus: typeof $Enums.FindingValidationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -257,6 +366,26 @@ export class PrismaClient<
     * ```
     */
   get reviewJob(): Prisma.ReviewJobDelegate<ExtArgs>;
+
+  /**
+   * `prisma.review`: Exposes CRUD operations for the **Review** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reviews
+    * const reviews = await prisma.review.findMany()
+    * ```
+    */
+  get review(): Prisma.ReviewDelegate<ExtArgs>;
+
+  /**
+   * `prisma.finding`: Exposes CRUD operations for the **Finding** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Findings
+    * const findings = await prisma.finding.findMany()
+    * ```
+    */
+  get finding(): Prisma.FindingDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -703,7 +832,9 @@ export namespace Prisma {
     Repository: 'Repository',
     RepositoryInstallation: 'RepositoryInstallation',
     WebhookDelivery: 'WebhookDelivery',
-    ReviewJob: 'ReviewJob'
+    ReviewJob: 'ReviewJob',
+    Review: 'Review',
+    Finding: 'Finding'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -719,7 +850,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "session" | "repository" | "repositoryInstallation" | "webhookDelivery" | "reviewJob"
+      modelProps: "user" | "session" | "repository" | "repositoryInstallation" | "webhookDelivery" | "reviewJob" | "review" | "finding"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1143,6 +1274,146 @@ export namespace Prisma {
           }
         }
       }
+      Review: {
+        payload: Prisma.$ReviewPayload<ExtArgs>
+        fields: Prisma.ReviewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReviewFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReviewFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          findFirst: {
+            args: Prisma.ReviewFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReviewFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          findMany: {
+            args: Prisma.ReviewFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+          }
+          create: {
+            args: Prisma.ReviewCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          createMany: {
+            args: Prisma.ReviewCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReviewCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+          }
+          delete: {
+            args: Prisma.ReviewDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          update: {
+            args: Prisma.ReviewUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReviewDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReviewUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReviewUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          aggregate: {
+            args: Prisma.ReviewAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReview>
+          }
+          groupBy: {
+            args: Prisma.ReviewGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReviewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReviewCountArgs<ExtArgs>
+            result: $Utils.Optional<ReviewCountAggregateOutputType> | number
+          }
+        }
+      }
+      Finding: {
+        payload: Prisma.$FindingPayload<ExtArgs>
+        fields: Prisma.FindingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FindingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FindingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>
+          }
+          findFirst: {
+            args: Prisma.FindingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FindingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>
+          }
+          findMany: {
+            args: Prisma.FindingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>[]
+          }
+          create: {
+            args: Prisma.FindingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>
+          }
+          createMany: {
+            args: Prisma.FindingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FindingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>[]
+          }
+          delete: {
+            args: Prisma.FindingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>
+          }
+          update: {
+            args: Prisma.FindingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>
+          }
+          deleteMany: {
+            args: Prisma.FindingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FindingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FindingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FindingPayload>
+          }
+          aggregate: {
+            args: Prisma.FindingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFinding>
+          }
+          groupBy: {
+            args: Prisma.FindingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FindingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FindingCountArgs<ExtArgs>
+            result: $Utils.Optional<FindingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1345,6 +1616,99 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRepositoryInstallationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RepositoryInstallationWhereInput
+  }
+
+
+  /**
+   * Count Type RepositoryCountOutputType
+   */
+
+  export type RepositoryCountOutputType = {
+    reviews: number
+  }
+
+  export type RepositoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reviews?: boolean | RepositoryCountOutputTypeCountReviewsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RepositoryCountOutputType without action
+   */
+  export type RepositoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepositoryCountOutputType
+     */
+    select?: RepositoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RepositoryCountOutputType without action
+   */
+  export type RepositoryCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+  }
+
+
+  /**
+   * Count Type ReviewJobCountOutputType
+   */
+
+  export type ReviewJobCountOutputType = {
+    reviews: number
+  }
+
+  export type ReviewJobCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reviews?: boolean | ReviewJobCountOutputTypeCountReviewsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReviewJobCountOutputType without action
+   */
+  export type ReviewJobCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewJobCountOutputType
+     */
+    select?: ReviewJobCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReviewJobCountOutputType without action
+   */
+  export type ReviewJobCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+  }
+
+
+  /**
+   * Count Type ReviewCountOutputType
+   */
+
+  export type ReviewCountOutputType = {
+    findings: number
+  }
+
+  export type ReviewCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    findings?: boolean | ReviewCountOutputTypeCountFindingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReviewCountOutputType without action
+   */
+  export type ReviewCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewCountOutputType
+     */
+    select?: ReviewCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReviewCountOutputType without action
+   */
+  export type ReviewCountOutputTypeCountFindingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FindingWhereInput
   }
 
 
@@ -3554,6 +3918,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     ownerUser?: boolean | Repository$ownerUserArgs<ExtArgs>
+    reviews?: boolean | Repository$reviewsArgs<ExtArgs>
+    _count?: boolean | RepositoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["repository"]>
 
   export type RepositorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3585,6 +3951,8 @@ export namespace Prisma {
 
   export type RepositoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ownerUser?: boolean | Repository$ownerUserArgs<ExtArgs>
+    reviews?: boolean | Repository$reviewsArgs<ExtArgs>
+    _count?: boolean | RepositoryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RepositoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ownerUser?: boolean | Repository$ownerUserArgs<ExtArgs>
@@ -3594,6 +3962,7 @@ export namespace Prisma {
     name: "Repository"
     objects: {
       ownerUser: Prisma.$UserPayload<ExtArgs> | null
+      reviews: Prisma.$ReviewPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3971,6 +4340,7 @@ export namespace Prisma {
   export interface Prisma__RepositoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     ownerUser<T extends Repository$ownerUserArgs<ExtArgs> = {}>(args?: Subset<T, Repository$ownerUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    reviews<T extends Repository$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Repository$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4340,6 +4710,26 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * Repository.reviews
+   */
+  export type Repository$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    cursor?: ReviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
   }
 
   /**
@@ -6559,6 +6949,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     completedAt?: boolean
+    reviews?: boolean | ReviewJob$reviewsArgs<ExtArgs>
+    _count?: boolean | ReviewJobCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reviewJob"]>
 
   export type ReviewJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6593,10 +6985,17 @@ export namespace Prisma {
     completedAt?: boolean
   }
 
+  export type ReviewJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reviews?: boolean | ReviewJob$reviewsArgs<ExtArgs>
+    _count?: boolean | ReviewJobCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ReviewJobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ReviewJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ReviewJob"
-    objects: {}
+    objects: {
+      reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       status: $Enums.ReviewJobStatus
@@ -6975,6 +7374,7 @@ export namespace Prisma {
    */
   export interface Prisma__ReviewJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    reviews<T extends ReviewJob$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, ReviewJob$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7030,6 +7430,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * Filter, which ReviewJob to fetch.
      */
     where: ReviewJobWhereUniqueInput
@@ -7044,6 +7448,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * Filter, which ReviewJob to fetch.
      */
     where: ReviewJobWhereUniqueInput
@@ -7057,6 +7465,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the ReviewJob
      */
     select?: ReviewJobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
     /**
      * Filter, which ReviewJob to fetch.
      */
@@ -7102,6 +7514,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * Filter, which ReviewJob to fetch.
      */
     where?: ReviewJobWhereInput
@@ -7146,6 +7562,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * Filter, which ReviewJobs to fetch.
      */
     where?: ReviewJobWhereInput
@@ -7184,6 +7604,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the ReviewJob
      */
     select?: ReviewJobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
     /**
      * The data needed to create a ReviewJob.
      */
@@ -7225,6 +7649,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * The data needed to update a ReviewJob.
      */
     data: XOR<ReviewJobUpdateInput, ReviewJobUncheckedUpdateInput>
@@ -7257,6 +7685,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * The filter to search for the ReviewJob to update in case it exists.
      */
     where: ReviewJobWhereUniqueInput
@@ -7279,6 +7711,10 @@ export namespace Prisma {
      */
     select?: ReviewJobSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    /**
      * Filter which ReviewJob to delete.
      */
     where: ReviewJobWhereUniqueInput
@@ -7295,6 +7731,26 @@ export namespace Prisma {
   }
 
   /**
+   * ReviewJob.reviews
+   */
+  export type ReviewJob$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    cursor?: ReviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
    * ReviewJob without action
    */
   export type ReviewJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7302,6 +7758,2374 @@ export namespace Prisma {
      * Select specific fields to fetch from the ReviewJob
      */
     select?: ReviewJobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Review
+   */
+
+  export type AggregateReview = {
+    _count: ReviewCountAggregateOutputType | null
+    _avg: ReviewAvgAggregateOutputType | null
+    _sum: ReviewSumAggregateOutputType | null
+    _min: ReviewMinAggregateOutputType | null
+    _max: ReviewMaxAggregateOutputType | null
+  }
+
+  export type ReviewAvgAggregateOutputType = {
+    githubRepositoryId: number | null
+    prNumber: number | null
+    findingsTotal: number | null
+    findingsCritical: number | null
+    findingsHigh: number | null
+    findingsMedium: number | null
+    findingsLow: number | null
+    findingsInfo: number | null
+  }
+
+  export type ReviewSumAggregateOutputType = {
+    githubRepositoryId: bigint | null
+    prNumber: number | null
+    findingsTotal: number | null
+    findingsCritical: number | null
+    findingsHigh: number | null
+    findingsMedium: number | null
+    findingsLow: number | null
+    findingsInfo: number | null
+  }
+
+  export type ReviewMinAggregateOutputType = {
+    id: string | null
+    mode: $Enums.ReviewMode | null
+    status: $Enums.ReviewStatus | null
+    repositoryId: string | null
+    githubRepositoryId: bigint | null
+    owner: string | null
+    name: string | null
+    prNumber: number | null
+    prTitle: string | null
+    prUrl: string | null
+    headSha: string | null
+    jobId: string | null
+    findingsTotal: number | null
+    findingsCritical: number | null
+    findingsHigh: number | null
+    findingsMedium: number | null
+    findingsLow: number | null
+    findingsInfo: number | null
+    errorMessage: string | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReviewMaxAggregateOutputType = {
+    id: string | null
+    mode: $Enums.ReviewMode | null
+    status: $Enums.ReviewStatus | null
+    repositoryId: string | null
+    githubRepositoryId: bigint | null
+    owner: string | null
+    name: string | null
+    prNumber: number | null
+    prTitle: string | null
+    prUrl: string | null
+    headSha: string | null
+    jobId: string | null
+    findingsTotal: number | null
+    findingsCritical: number | null
+    findingsHigh: number | null
+    findingsMedium: number | null
+    findingsLow: number | null
+    findingsInfo: number | null
+    errorMessage: string | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReviewCountAggregateOutputType = {
+    id: number
+    mode: number
+    status: number
+    repositoryId: number
+    githubRepositoryId: number
+    owner: number
+    name: number
+    prNumber: number
+    prTitle: number
+    prUrl: number
+    headSha: number
+    jobId: number
+    findingsTotal: number
+    findingsCritical: number
+    findingsHigh: number
+    findingsMedium: number
+    findingsLow: number
+    findingsInfo: number
+    errorMessage: number
+    startedAt: number
+    completedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReviewAvgAggregateInputType = {
+    githubRepositoryId?: true
+    prNumber?: true
+    findingsTotal?: true
+    findingsCritical?: true
+    findingsHigh?: true
+    findingsMedium?: true
+    findingsLow?: true
+    findingsInfo?: true
+  }
+
+  export type ReviewSumAggregateInputType = {
+    githubRepositoryId?: true
+    prNumber?: true
+    findingsTotal?: true
+    findingsCritical?: true
+    findingsHigh?: true
+    findingsMedium?: true
+    findingsLow?: true
+    findingsInfo?: true
+  }
+
+  export type ReviewMinAggregateInputType = {
+    id?: true
+    mode?: true
+    status?: true
+    repositoryId?: true
+    githubRepositoryId?: true
+    owner?: true
+    name?: true
+    prNumber?: true
+    prTitle?: true
+    prUrl?: true
+    headSha?: true
+    jobId?: true
+    findingsTotal?: true
+    findingsCritical?: true
+    findingsHigh?: true
+    findingsMedium?: true
+    findingsLow?: true
+    findingsInfo?: true
+    errorMessage?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReviewMaxAggregateInputType = {
+    id?: true
+    mode?: true
+    status?: true
+    repositoryId?: true
+    githubRepositoryId?: true
+    owner?: true
+    name?: true
+    prNumber?: true
+    prTitle?: true
+    prUrl?: true
+    headSha?: true
+    jobId?: true
+    findingsTotal?: true
+    findingsCritical?: true
+    findingsHigh?: true
+    findingsMedium?: true
+    findingsLow?: true
+    findingsInfo?: true
+    errorMessage?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReviewCountAggregateInputType = {
+    id?: true
+    mode?: true
+    status?: true
+    repositoryId?: true
+    githubRepositoryId?: true
+    owner?: true
+    name?: true
+    prNumber?: true
+    prTitle?: true
+    prUrl?: true
+    headSha?: true
+    jobId?: true
+    findingsTotal?: true
+    findingsCritical?: true
+    findingsHigh?: true
+    findingsMedium?: true
+    findingsLow?: true
+    findingsInfo?: true
+    errorMessage?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReviewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Review to aggregate.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Reviews
+    **/
+    _count?: true | ReviewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReviewAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReviewSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReviewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReviewMaxAggregateInputType
+  }
+
+  export type GetReviewAggregateType<T extends ReviewAggregateArgs> = {
+        [P in keyof T & keyof AggregateReview]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReview[P]>
+      : GetScalarType<T[P], AggregateReview[P]>
+  }
+
+
+
+
+  export type ReviewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithAggregationInput | ReviewOrderByWithAggregationInput[]
+    by: ReviewScalarFieldEnum[] | ReviewScalarFieldEnum
+    having?: ReviewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReviewCountAggregateInputType | true
+    _avg?: ReviewAvgAggregateInputType
+    _sum?: ReviewSumAggregateInputType
+    _min?: ReviewMinAggregateInputType
+    _max?: ReviewMaxAggregateInputType
+  }
+
+  export type ReviewGroupByOutputType = {
+    id: string
+    mode: $Enums.ReviewMode
+    status: $Enums.ReviewStatus
+    repositoryId: string | null
+    githubRepositoryId: bigint
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl: string | null
+    headSha: string
+    jobId: string | null
+    findingsTotal: number
+    findingsCritical: number
+    findingsHigh: number
+    findingsMedium: number
+    findingsLow: number
+    findingsInfo: number
+    errorMessage: string | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ReviewCountAggregateOutputType | null
+    _avg: ReviewAvgAggregateOutputType | null
+    _sum: ReviewSumAggregateOutputType | null
+    _min: ReviewMinAggregateOutputType | null
+    _max: ReviewMaxAggregateOutputType | null
+  }
+
+  type GetReviewGroupByPayload<T extends ReviewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReviewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReviewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReviewGroupByOutputType[P]>
+            : GetScalarType<T[P], ReviewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mode?: boolean
+    status?: boolean
+    repositoryId?: boolean
+    githubRepositoryId?: boolean
+    owner?: boolean
+    name?: boolean
+    prNumber?: boolean
+    prTitle?: boolean
+    prUrl?: boolean
+    headSha?: boolean
+    jobId?: boolean
+    findingsTotal?: boolean
+    findingsCritical?: boolean
+    findingsHigh?: boolean
+    findingsMedium?: boolean
+    findingsLow?: boolean
+    findingsInfo?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    repository?: boolean | Review$repositoryArgs<ExtArgs>
+    job?: boolean | Review$jobArgs<ExtArgs>
+    findings?: boolean | Review$findingsArgs<ExtArgs>
+    _count?: boolean | ReviewCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["review"]>
+
+  export type ReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mode?: boolean
+    status?: boolean
+    repositoryId?: boolean
+    githubRepositoryId?: boolean
+    owner?: boolean
+    name?: boolean
+    prNumber?: boolean
+    prTitle?: boolean
+    prUrl?: boolean
+    headSha?: boolean
+    jobId?: boolean
+    findingsTotal?: boolean
+    findingsCritical?: boolean
+    findingsHigh?: boolean
+    findingsMedium?: boolean
+    findingsLow?: boolean
+    findingsInfo?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    repository?: boolean | Review$repositoryArgs<ExtArgs>
+    job?: boolean | Review$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["review"]>
+
+  export type ReviewSelectScalar = {
+    id?: boolean
+    mode?: boolean
+    status?: boolean
+    repositoryId?: boolean
+    githubRepositoryId?: boolean
+    owner?: boolean
+    name?: boolean
+    prNumber?: boolean
+    prTitle?: boolean
+    prUrl?: boolean
+    headSha?: boolean
+    jobId?: boolean
+    findingsTotal?: boolean
+    findingsCritical?: boolean
+    findingsHigh?: boolean
+    findingsMedium?: boolean
+    findingsLow?: boolean
+    findingsInfo?: boolean
+    errorMessage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    repository?: boolean | Review$repositoryArgs<ExtArgs>
+    job?: boolean | Review$jobArgs<ExtArgs>
+    findings?: boolean | Review$findingsArgs<ExtArgs>
+    _count?: boolean | ReviewCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    repository?: boolean | Review$repositoryArgs<ExtArgs>
+    job?: boolean | Review$jobArgs<ExtArgs>
+  }
+
+  export type $ReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Review"
+    objects: {
+      repository: Prisma.$RepositoryPayload<ExtArgs> | null
+      job: Prisma.$ReviewJobPayload<ExtArgs> | null
+      findings: Prisma.$FindingPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      mode: $Enums.ReviewMode
+      status: $Enums.ReviewStatus
+      repositoryId: string | null
+      githubRepositoryId: bigint
+      owner: string
+      name: string
+      prNumber: number
+      prTitle: string
+      prUrl: string | null
+      headSha: string
+      jobId: string | null
+      findingsTotal: number
+      findingsCritical: number
+      findingsHigh: number
+      findingsMedium: number
+      findingsLow: number
+      findingsInfo: number
+      errorMessage: string | null
+      startedAt: Date | null
+      completedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["review"]>
+    composites: {}
+  }
+
+  type ReviewGetPayload<S extends boolean | null | undefined | ReviewDefaultArgs> = $Result.GetResult<Prisma.$ReviewPayload, S>
+
+  type ReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ReviewCountAggregateInputType | true
+    }
+
+  export interface ReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Review'], meta: { name: 'Review' } }
+    /**
+     * Find zero or one Review that matches the filter.
+     * @param {ReviewFindUniqueArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReviewFindUniqueArgs>(args: SelectSubset<T, ReviewFindUniqueArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Review that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ReviewFindUniqueOrThrowArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, ReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Review that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewFindFirstArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReviewFindFirstArgs>(args?: SelectSubset<T, ReviewFindFirstArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Review that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewFindFirstOrThrowArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, ReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Reviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Reviews
+     * const reviews = await prisma.review.findMany()
+     * 
+     * // Get first 10 Reviews
+     * const reviews = await prisma.review.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reviewWithIdOnly = await prisma.review.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReviewFindManyArgs>(args?: SelectSubset<T, ReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Review.
+     * @param {ReviewCreateArgs} args - Arguments to create a Review.
+     * @example
+     * // Create one Review
+     * const Review = await prisma.review.create({
+     *   data: {
+     *     // ... data to create a Review
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReviewCreateArgs>(args: SelectSubset<T, ReviewCreateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Reviews.
+     * @param {ReviewCreateManyArgs} args - Arguments to create many Reviews.
+     * @example
+     * // Create many Reviews
+     * const review = await prisma.review.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReviewCreateManyArgs>(args?: SelectSubset<T, ReviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Reviews and returns the data saved in the database.
+     * @param {ReviewCreateManyAndReturnArgs} args - Arguments to create many Reviews.
+     * @example
+     * // Create many Reviews
+     * const review = await prisma.review.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Reviews and only return the `id`
+     * const reviewWithIdOnly = await prisma.review.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, ReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Review.
+     * @param {ReviewDeleteArgs} args - Arguments to delete one Review.
+     * @example
+     * // Delete one Review
+     * const Review = await prisma.review.delete({
+     *   where: {
+     *     // ... filter to delete one Review
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReviewDeleteArgs>(args: SelectSubset<T, ReviewDeleteArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Review.
+     * @param {ReviewUpdateArgs} args - Arguments to update one Review.
+     * @example
+     * // Update one Review
+     * const review = await prisma.review.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReviewUpdateArgs>(args: SelectSubset<T, ReviewUpdateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Reviews.
+     * @param {ReviewDeleteManyArgs} args - Arguments to filter Reviews to delete.
+     * @example
+     * // Delete a few Reviews
+     * const { count } = await prisma.review.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReviewDeleteManyArgs>(args?: SelectSubset<T, ReviewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Reviews
+     * const review = await prisma.review.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReviewUpdateManyArgs>(args: SelectSubset<T, ReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Review.
+     * @param {ReviewUpsertArgs} args - Arguments to update or create a Review.
+     * @example
+     * // Update or create a Review
+     * const review = await prisma.review.upsert({
+     *   create: {
+     *     // ... data to create a Review
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Review we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReviewUpsertArgs>(args: SelectSubset<T, ReviewUpsertArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewCountArgs} args - Arguments to filter Reviews to count.
+     * @example
+     * // Count the number of Reviews
+     * const count = await prisma.review.count({
+     *   where: {
+     *     // ... the filter for the Reviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReviewCountArgs>(
+      args?: Subset<T, ReviewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReviewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Review.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReviewAggregateArgs>(args: Subset<T, ReviewAggregateArgs>): Prisma.PrismaPromise<GetReviewAggregateType<T>>
+
+    /**
+     * Group by Review.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReviewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReviewGroupByArgs['orderBy'] }
+        : { orderBy?: ReviewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReviewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Review model
+   */
+  readonly fields: ReviewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Review.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    repository<T extends Review$repositoryArgs<ExtArgs> = {}>(args?: Subset<T, Review$repositoryArgs<ExtArgs>>): Prisma__RepositoryClient<$Result.GetResult<Prisma.$RepositoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    job<T extends Review$jobArgs<ExtArgs> = {}>(args?: Subset<T, Review$jobArgs<ExtArgs>>): Prisma__ReviewJobClient<$Result.GetResult<Prisma.$ReviewJobPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    findings<T extends Review$findingsArgs<ExtArgs> = {}>(args?: Subset<T, Review$findingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Review model
+   */ 
+  interface ReviewFieldRefs {
+    readonly id: FieldRef<"Review", 'String'>
+    readonly mode: FieldRef<"Review", 'ReviewMode'>
+    readonly status: FieldRef<"Review", 'ReviewStatus'>
+    readonly repositoryId: FieldRef<"Review", 'String'>
+    readonly githubRepositoryId: FieldRef<"Review", 'BigInt'>
+    readonly owner: FieldRef<"Review", 'String'>
+    readonly name: FieldRef<"Review", 'String'>
+    readonly prNumber: FieldRef<"Review", 'Int'>
+    readonly prTitle: FieldRef<"Review", 'String'>
+    readonly prUrl: FieldRef<"Review", 'String'>
+    readonly headSha: FieldRef<"Review", 'String'>
+    readonly jobId: FieldRef<"Review", 'String'>
+    readonly findingsTotal: FieldRef<"Review", 'Int'>
+    readonly findingsCritical: FieldRef<"Review", 'Int'>
+    readonly findingsHigh: FieldRef<"Review", 'Int'>
+    readonly findingsMedium: FieldRef<"Review", 'Int'>
+    readonly findingsLow: FieldRef<"Review", 'Int'>
+    readonly findingsInfo: FieldRef<"Review", 'Int'>
+    readonly errorMessage: FieldRef<"Review", 'String'>
+    readonly startedAt: FieldRef<"Review", 'DateTime'>
+    readonly completedAt: FieldRef<"Review", 'DateTime'>
+    readonly createdAt: FieldRef<"Review", 'DateTime'>
+    readonly updatedAt: FieldRef<"Review", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Review findUnique
+   */
+  export type ReviewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review findUniqueOrThrow
+   */
+  export type ReviewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review findFirst
+   */
+  export type ReviewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reviews.
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reviews.
+     */
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Review findFirstOrThrow
+   */
+  export type ReviewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reviews.
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reviews.
+     */
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Review findMany
+   */
+  export type ReviewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Reviews to fetch.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Reviews.
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Review create
+   */
+  export type ReviewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Review.
+     */
+    data: XOR<ReviewCreateInput, ReviewUncheckedCreateInput>
+  }
+
+  /**
+   * Review createMany
+   */
+  export type ReviewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Reviews.
+     */
+    data: ReviewCreateManyInput | ReviewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Review createManyAndReturn
+   */
+  export type ReviewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Reviews.
+     */
+    data: ReviewCreateManyInput | ReviewCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Review update
+   */
+  export type ReviewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Review.
+     */
+    data: XOR<ReviewUpdateInput, ReviewUncheckedUpdateInput>
+    /**
+     * Choose, which Review to update.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review updateMany
+   */
+  export type ReviewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Reviews.
+     */
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyInput>
+    /**
+     * Filter which Reviews to update
+     */
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * Review upsert
+   */
+  export type ReviewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Review to update in case it exists.
+     */
+    where: ReviewWhereUniqueInput
+    /**
+     * In case the Review found by the `where` argument doesn't exist, create a new Review with this data.
+     */
+    create: XOR<ReviewCreateInput, ReviewUncheckedCreateInput>
+    /**
+     * In case the Review was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReviewUpdateInput, ReviewUncheckedUpdateInput>
+  }
+
+  /**
+   * Review delete
+   */
+  export type ReviewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter which Review to delete.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review deleteMany
+   */
+  export type ReviewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reviews to delete
+     */
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * Review.repository
+   */
+  export type Review$repositoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Repository
+     */
+    select?: RepositorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepositoryInclude<ExtArgs> | null
+    where?: RepositoryWhereInput
+  }
+
+  /**
+   * Review.job
+   */
+  export type Review$jobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewJob
+     */
+    select?: ReviewJobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewJobInclude<ExtArgs> | null
+    where?: ReviewJobWhereInput
+  }
+
+  /**
+   * Review.findings
+   */
+  export type Review$findingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    where?: FindingWhereInput
+    orderBy?: FindingOrderByWithRelationInput | FindingOrderByWithRelationInput[]
+    cursor?: FindingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FindingScalarFieldEnum | FindingScalarFieldEnum[]
+  }
+
+  /**
+   * Review without action
+   */
+  export type ReviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Finding
+   */
+
+  export type AggregateFinding = {
+    _count: FindingCountAggregateOutputType | null
+    _avg: FindingAvgAggregateOutputType | null
+    _sum: FindingSumAggregateOutputType | null
+    _min: FindingMinAggregateOutputType | null
+    _max: FindingMaxAggregateOutputType | null
+  }
+
+  export type FindingAvgAggregateOutputType = {
+    lineStart: number | null
+    lineEnd: number | null
+  }
+
+  export type FindingSumAggregateOutputType = {
+    lineStart: number | null
+    lineEnd: number | null
+  }
+
+  export type FindingMinAggregateOutputType = {
+    id: string | null
+    reviewId: string | null
+    source: $Enums.FindingSource | null
+    category: $Enums.FindingCategory | null
+    severity: $Enums.FindingSeverity | null
+    confidence: $Enums.FindingConfidence | null
+    filePath: string | null
+    lineStart: number | null
+    lineEnd: number | null
+    message: string | null
+    evidence: string | null
+    recommendation: string | null
+    validationStatus: $Enums.FindingValidationStatus | null
+    fingerprint: string | null
+    createdAt: Date | null
+  }
+
+  export type FindingMaxAggregateOutputType = {
+    id: string | null
+    reviewId: string | null
+    source: $Enums.FindingSource | null
+    category: $Enums.FindingCategory | null
+    severity: $Enums.FindingSeverity | null
+    confidence: $Enums.FindingConfidence | null
+    filePath: string | null
+    lineStart: number | null
+    lineEnd: number | null
+    message: string | null
+    evidence: string | null
+    recommendation: string | null
+    validationStatus: $Enums.FindingValidationStatus | null
+    fingerprint: string | null
+    createdAt: Date | null
+  }
+
+  export type FindingCountAggregateOutputType = {
+    id: number
+    reviewId: number
+    source: number
+    category: number
+    severity: number
+    confidence: number
+    filePath: number
+    lineStart: number
+    lineEnd: number
+    message: number
+    evidence: number
+    recommendation: number
+    validationStatus: number
+    fingerprint: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FindingAvgAggregateInputType = {
+    lineStart?: true
+    lineEnd?: true
+  }
+
+  export type FindingSumAggregateInputType = {
+    lineStart?: true
+    lineEnd?: true
+  }
+
+  export type FindingMinAggregateInputType = {
+    id?: true
+    reviewId?: true
+    source?: true
+    category?: true
+    severity?: true
+    confidence?: true
+    filePath?: true
+    lineStart?: true
+    lineEnd?: true
+    message?: true
+    evidence?: true
+    recommendation?: true
+    validationStatus?: true
+    fingerprint?: true
+    createdAt?: true
+  }
+
+  export type FindingMaxAggregateInputType = {
+    id?: true
+    reviewId?: true
+    source?: true
+    category?: true
+    severity?: true
+    confidence?: true
+    filePath?: true
+    lineStart?: true
+    lineEnd?: true
+    message?: true
+    evidence?: true
+    recommendation?: true
+    validationStatus?: true
+    fingerprint?: true
+    createdAt?: true
+  }
+
+  export type FindingCountAggregateInputType = {
+    id?: true
+    reviewId?: true
+    source?: true
+    category?: true
+    severity?: true
+    confidence?: true
+    filePath?: true
+    lineStart?: true
+    lineEnd?: true
+    message?: true
+    evidence?: true
+    recommendation?: true
+    validationStatus?: true
+    fingerprint?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FindingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Finding to aggregate.
+     */
+    where?: FindingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Findings to fetch.
+     */
+    orderBy?: FindingOrderByWithRelationInput | FindingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FindingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Findings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Findings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Findings
+    **/
+    _count?: true | FindingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FindingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FindingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FindingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FindingMaxAggregateInputType
+  }
+
+  export type GetFindingAggregateType<T extends FindingAggregateArgs> = {
+        [P in keyof T & keyof AggregateFinding]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFinding[P]>
+      : GetScalarType<T[P], AggregateFinding[P]>
+  }
+
+
+
+
+  export type FindingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FindingWhereInput
+    orderBy?: FindingOrderByWithAggregationInput | FindingOrderByWithAggregationInput[]
+    by: FindingScalarFieldEnum[] | FindingScalarFieldEnum
+    having?: FindingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FindingCountAggregateInputType | true
+    _avg?: FindingAvgAggregateInputType
+    _sum?: FindingSumAggregateInputType
+    _min?: FindingMinAggregateInputType
+    _max?: FindingMaxAggregateInputType
+  }
+
+  export type FindingGroupByOutputType = {
+    id: string
+    reviewId: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd: number | null
+    message: string
+    evidence: string | null
+    recommendation: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt: Date
+    _count: FindingCountAggregateOutputType | null
+    _avg: FindingAvgAggregateOutputType | null
+    _sum: FindingSumAggregateOutputType | null
+    _min: FindingMinAggregateOutputType | null
+    _max: FindingMaxAggregateOutputType | null
+  }
+
+  type GetFindingGroupByPayload<T extends FindingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FindingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FindingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FindingGroupByOutputType[P]>
+            : GetScalarType<T[P], FindingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FindingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reviewId?: boolean
+    source?: boolean
+    category?: boolean
+    severity?: boolean
+    confidence?: boolean
+    filePath?: boolean
+    lineStart?: boolean
+    lineEnd?: boolean
+    message?: boolean
+    evidence?: boolean
+    recommendation?: boolean
+    validationStatus?: boolean
+    fingerprint?: boolean
+    createdAt?: boolean
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["finding"]>
+
+  export type FindingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reviewId?: boolean
+    source?: boolean
+    category?: boolean
+    severity?: boolean
+    confidence?: boolean
+    filePath?: boolean
+    lineStart?: boolean
+    lineEnd?: boolean
+    message?: boolean
+    evidence?: boolean
+    recommendation?: boolean
+    validationStatus?: boolean
+    fingerprint?: boolean
+    createdAt?: boolean
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["finding"]>
+
+  export type FindingSelectScalar = {
+    id?: boolean
+    reviewId?: boolean
+    source?: boolean
+    category?: boolean
+    severity?: boolean
+    confidence?: boolean
+    filePath?: boolean
+    lineStart?: boolean
+    lineEnd?: boolean
+    message?: boolean
+    evidence?: boolean
+    recommendation?: boolean
+    validationStatus?: boolean
+    fingerprint?: boolean
+    createdAt?: boolean
+  }
+
+  export type FindingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }
+  export type FindingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | ReviewDefaultArgs<ExtArgs>
+  }
+
+  export type $FindingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Finding"
+    objects: {
+      review: Prisma.$ReviewPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      reviewId: string
+      source: $Enums.FindingSource
+      category: $Enums.FindingCategory
+      severity: $Enums.FindingSeverity
+      confidence: $Enums.FindingConfidence
+      filePath: string
+      lineStart: number
+      lineEnd: number | null
+      message: string
+      evidence: string | null
+      recommendation: string | null
+      validationStatus: $Enums.FindingValidationStatus
+      fingerprint: string
+      createdAt: Date
+    }, ExtArgs["result"]["finding"]>
+    composites: {}
+  }
+
+  type FindingGetPayload<S extends boolean | null | undefined | FindingDefaultArgs> = $Result.GetResult<Prisma.$FindingPayload, S>
+
+  type FindingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<FindingFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: FindingCountAggregateInputType | true
+    }
+
+  export interface FindingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Finding'], meta: { name: 'Finding' } }
+    /**
+     * Find zero or one Finding that matches the filter.
+     * @param {FindingFindUniqueArgs} args - Arguments to find a Finding
+     * @example
+     * // Get one Finding
+     * const finding = await prisma.finding.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FindingFindUniqueArgs>(args: SelectSubset<T, FindingFindUniqueArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Finding that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {FindingFindUniqueOrThrowArgs} args - Arguments to find a Finding
+     * @example
+     * // Get one Finding
+     * const finding = await prisma.finding.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FindingFindUniqueOrThrowArgs>(args: SelectSubset<T, FindingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Finding that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingFindFirstArgs} args - Arguments to find a Finding
+     * @example
+     * // Get one Finding
+     * const finding = await prisma.finding.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FindingFindFirstArgs>(args?: SelectSubset<T, FindingFindFirstArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Finding that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingFindFirstOrThrowArgs} args - Arguments to find a Finding
+     * @example
+     * // Get one Finding
+     * const finding = await prisma.finding.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FindingFindFirstOrThrowArgs>(args?: SelectSubset<T, FindingFindFirstOrThrowArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Findings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Findings
+     * const findings = await prisma.finding.findMany()
+     * 
+     * // Get first 10 Findings
+     * const findings = await prisma.finding.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const findingWithIdOnly = await prisma.finding.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FindingFindManyArgs>(args?: SelectSubset<T, FindingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Finding.
+     * @param {FindingCreateArgs} args - Arguments to create a Finding.
+     * @example
+     * // Create one Finding
+     * const Finding = await prisma.finding.create({
+     *   data: {
+     *     // ... data to create a Finding
+     *   }
+     * })
+     * 
+     */
+    create<T extends FindingCreateArgs>(args: SelectSubset<T, FindingCreateArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Findings.
+     * @param {FindingCreateManyArgs} args - Arguments to create many Findings.
+     * @example
+     * // Create many Findings
+     * const finding = await prisma.finding.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FindingCreateManyArgs>(args?: SelectSubset<T, FindingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Findings and returns the data saved in the database.
+     * @param {FindingCreateManyAndReturnArgs} args - Arguments to create many Findings.
+     * @example
+     * // Create many Findings
+     * const finding = await prisma.finding.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Findings and only return the `id`
+     * const findingWithIdOnly = await prisma.finding.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FindingCreateManyAndReturnArgs>(args?: SelectSubset<T, FindingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Finding.
+     * @param {FindingDeleteArgs} args - Arguments to delete one Finding.
+     * @example
+     * // Delete one Finding
+     * const Finding = await prisma.finding.delete({
+     *   where: {
+     *     // ... filter to delete one Finding
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FindingDeleteArgs>(args: SelectSubset<T, FindingDeleteArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Finding.
+     * @param {FindingUpdateArgs} args - Arguments to update one Finding.
+     * @example
+     * // Update one Finding
+     * const finding = await prisma.finding.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FindingUpdateArgs>(args: SelectSubset<T, FindingUpdateArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Findings.
+     * @param {FindingDeleteManyArgs} args - Arguments to filter Findings to delete.
+     * @example
+     * // Delete a few Findings
+     * const { count } = await prisma.finding.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FindingDeleteManyArgs>(args?: SelectSubset<T, FindingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Findings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Findings
+     * const finding = await prisma.finding.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FindingUpdateManyArgs>(args: SelectSubset<T, FindingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Finding.
+     * @param {FindingUpsertArgs} args - Arguments to update or create a Finding.
+     * @example
+     * // Update or create a Finding
+     * const finding = await prisma.finding.upsert({
+     *   create: {
+     *     // ... data to create a Finding
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Finding we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FindingUpsertArgs>(args: SelectSubset<T, FindingUpsertArgs<ExtArgs>>): Prisma__FindingClient<$Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Findings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingCountArgs} args - Arguments to filter Findings to count.
+     * @example
+     * // Count the number of Findings
+     * const count = await prisma.finding.count({
+     *   where: {
+     *     // ... the filter for the Findings we want to count
+     *   }
+     * })
+    **/
+    count<T extends FindingCountArgs>(
+      args?: Subset<T, FindingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FindingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Finding.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FindingAggregateArgs>(args: Subset<T, FindingAggregateArgs>): Prisma.PrismaPromise<GetFindingAggregateType<T>>
+
+    /**
+     * Group by Finding.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FindingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FindingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FindingGroupByArgs['orderBy'] }
+        : { orderBy?: FindingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FindingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFindingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Finding model
+   */
+  readonly fields: FindingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Finding.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FindingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    review<T extends ReviewDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReviewDefaultArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Finding model
+   */ 
+  interface FindingFieldRefs {
+    readonly id: FieldRef<"Finding", 'String'>
+    readonly reviewId: FieldRef<"Finding", 'String'>
+    readonly source: FieldRef<"Finding", 'FindingSource'>
+    readonly category: FieldRef<"Finding", 'FindingCategory'>
+    readonly severity: FieldRef<"Finding", 'FindingSeverity'>
+    readonly confidence: FieldRef<"Finding", 'FindingConfidence'>
+    readonly filePath: FieldRef<"Finding", 'String'>
+    readonly lineStart: FieldRef<"Finding", 'Int'>
+    readonly lineEnd: FieldRef<"Finding", 'Int'>
+    readonly message: FieldRef<"Finding", 'String'>
+    readonly evidence: FieldRef<"Finding", 'String'>
+    readonly recommendation: FieldRef<"Finding", 'String'>
+    readonly validationStatus: FieldRef<"Finding", 'FindingValidationStatus'>
+    readonly fingerprint: FieldRef<"Finding", 'String'>
+    readonly createdAt: FieldRef<"Finding", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Finding findUnique
+   */
+  export type FindingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * Filter, which Finding to fetch.
+     */
+    where: FindingWhereUniqueInput
+  }
+
+  /**
+   * Finding findUniqueOrThrow
+   */
+  export type FindingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * Filter, which Finding to fetch.
+     */
+    where: FindingWhereUniqueInput
+  }
+
+  /**
+   * Finding findFirst
+   */
+  export type FindingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * Filter, which Finding to fetch.
+     */
+    where?: FindingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Findings to fetch.
+     */
+    orderBy?: FindingOrderByWithRelationInput | FindingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Findings.
+     */
+    cursor?: FindingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Findings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Findings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Findings.
+     */
+    distinct?: FindingScalarFieldEnum | FindingScalarFieldEnum[]
+  }
+
+  /**
+   * Finding findFirstOrThrow
+   */
+  export type FindingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * Filter, which Finding to fetch.
+     */
+    where?: FindingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Findings to fetch.
+     */
+    orderBy?: FindingOrderByWithRelationInput | FindingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Findings.
+     */
+    cursor?: FindingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Findings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Findings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Findings.
+     */
+    distinct?: FindingScalarFieldEnum | FindingScalarFieldEnum[]
+  }
+
+  /**
+   * Finding findMany
+   */
+  export type FindingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * Filter, which Findings to fetch.
+     */
+    where?: FindingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Findings to fetch.
+     */
+    orderBy?: FindingOrderByWithRelationInput | FindingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Findings.
+     */
+    cursor?: FindingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Findings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Findings.
+     */
+    skip?: number
+    distinct?: FindingScalarFieldEnum | FindingScalarFieldEnum[]
+  }
+
+  /**
+   * Finding create
+   */
+  export type FindingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Finding.
+     */
+    data: XOR<FindingCreateInput, FindingUncheckedCreateInput>
+  }
+
+  /**
+   * Finding createMany
+   */
+  export type FindingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Findings.
+     */
+    data: FindingCreateManyInput | FindingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Finding createManyAndReturn
+   */
+  export type FindingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Findings.
+     */
+    data: FindingCreateManyInput | FindingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Finding update
+   */
+  export type FindingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Finding.
+     */
+    data: XOR<FindingUpdateInput, FindingUncheckedUpdateInput>
+    /**
+     * Choose, which Finding to update.
+     */
+    where: FindingWhereUniqueInput
+  }
+
+  /**
+   * Finding updateMany
+   */
+  export type FindingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Findings.
+     */
+    data: XOR<FindingUpdateManyMutationInput, FindingUncheckedUpdateManyInput>
+    /**
+     * Filter which Findings to update
+     */
+    where?: FindingWhereInput
+  }
+
+  /**
+   * Finding upsert
+   */
+  export type FindingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Finding to update in case it exists.
+     */
+    where: FindingWhereUniqueInput
+    /**
+     * In case the Finding found by the `where` argument doesn't exist, create a new Finding with this data.
+     */
+    create: XOR<FindingCreateInput, FindingUncheckedCreateInput>
+    /**
+     * In case the Finding was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FindingUpdateInput, FindingUncheckedUpdateInput>
+  }
+
+  /**
+   * Finding delete
+   */
+  export type FindingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
+    /**
+     * Filter which Finding to delete.
+     */
+    where: FindingWhereUniqueInput
+  }
+
+  /**
+   * Finding deleteMany
+   */
+  export type FindingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Findings to delete
+     */
+    where?: FindingWhereInput
+  }
+
+  /**
+   * Finding without action
+   */
+  export type FindingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Finding
+     */
+    select?: FindingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FindingInclude<ExtArgs> | null
   }
 
 
@@ -7401,6 +10225,56 @@ export namespace Prisma {
   };
 
   export type ReviewJobScalarFieldEnum = (typeof ReviewJobScalarFieldEnum)[keyof typeof ReviewJobScalarFieldEnum]
+
+
+  export const ReviewScalarFieldEnum: {
+    id: 'id',
+    mode: 'mode',
+    status: 'status',
+    repositoryId: 'repositoryId',
+    githubRepositoryId: 'githubRepositoryId',
+    owner: 'owner',
+    name: 'name',
+    prNumber: 'prNumber',
+    prTitle: 'prTitle',
+    prUrl: 'prUrl',
+    headSha: 'headSha',
+    jobId: 'jobId',
+    findingsTotal: 'findingsTotal',
+    findingsCritical: 'findingsCritical',
+    findingsHigh: 'findingsHigh',
+    findingsMedium: 'findingsMedium',
+    findingsLow: 'findingsLow',
+    findingsInfo: 'findingsInfo',
+    errorMessage: 'errorMessage',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+  export const FindingScalarFieldEnum: {
+    id: 'id',
+    reviewId: 'reviewId',
+    source: 'source',
+    category: 'category',
+    severity: 'severity',
+    confidence: 'confidence',
+    filePath: 'filePath',
+    lineStart: 'lineStart',
+    lineEnd: 'lineEnd',
+    message: 'message',
+    evidence: 'evidence',
+    recommendation: 'recommendation',
+    validationStatus: 'validationStatus',
+    fingerprint: 'fingerprint',
+    createdAt: 'createdAt'
+  };
+
+  export type FindingScalarFieldEnum = (typeof FindingScalarFieldEnum)[keyof typeof FindingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7543,6 +10417,104 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReviewMode'
+   */
+  export type EnumReviewModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReviewMode[]'
+   */
+  export type ListEnumReviewModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewMode[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReviewStatus'
+   */
+  export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReviewStatus[]'
+   */
+  export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingSource'
+   */
+  export type EnumFindingSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingSource'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingSource[]'
+   */
+  export type ListEnumFindingSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingSource[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingCategory'
+   */
+  export type EnumFindingCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingCategory[]'
+   */
+  export type ListEnumFindingCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingCategory[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingSeverity'
+   */
+  export type EnumFindingSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingSeverity'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingSeverity[]'
+   */
+  export type ListEnumFindingSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingSeverity[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingConfidence'
+   */
+  export type EnumFindingConfidenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingConfidence'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingConfidence[]'
+   */
+  export type ListEnumFindingConfidenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingConfidence[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingValidationStatus'
+   */
+  export type EnumFindingValidationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingValidationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'FindingValidationStatus[]'
+   */
+  export type ListEnumFindingValidationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FindingValidationStatus[]'>
     
 
 
@@ -7696,6 +10668,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Repository"> | Date | string
     updatedAt?: DateTimeFilter<"Repository"> | Date | string
     ownerUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    reviews?: ReviewListRelationFilter
   }
 
   export type RepositoryOrderByWithRelationInput = {
@@ -7710,6 +10683,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerUser?: UserOrderByWithRelationInput
+    reviews?: ReviewOrderByRelationAggregateInput
   }
 
   export type RepositoryWhereUniqueInput = Prisma.AtLeast<{
@@ -7727,6 +10701,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Repository"> | Date | string
     updatedAt?: DateTimeFilter<"Repository"> | Date | string
     ownerUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    reviews?: ReviewListRelationFilter
   }, "id" | "githubRepositoryId">
 
   export type RepositoryOrderByWithAggregationInput = {
@@ -7914,6 +10889,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ReviewJob"> | Date | string
     updatedAt?: DateTimeFilter<"ReviewJob"> | Date | string
     completedAt?: DateTimeNullableFilter<"ReviewJob"> | Date | string | null
+    reviews?: ReviewListRelationFilter
   }
 
   export type ReviewJobOrderByWithRelationInput = {
@@ -7930,6 +10906,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     completedAt?: SortOrderInput | SortOrder
+    reviews?: ReviewOrderByRelationAggregateInput
   }
 
   export type ReviewJobWhereUniqueInput = Prisma.AtLeast<{
@@ -7949,6 +10926,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ReviewJob"> | Date | string
     updatedAt?: DateTimeFilter<"ReviewJob"> | Date | string
     completedAt?: DateTimeNullableFilter<"ReviewJob"> | Date | string | null
+    reviews?: ReviewListRelationFilter
   }, "id">
 
   export type ReviewJobOrderByWithAggregationInput = {
@@ -7989,6 +10967,266 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ReviewJob"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ReviewJob"> | Date | string
     completedAt?: DateTimeNullableWithAggregatesFilter<"ReviewJob"> | Date | string | null
+  }
+
+  export type ReviewWhereInput = {
+    AND?: ReviewWhereInput | ReviewWhereInput[]
+    OR?: ReviewWhereInput[]
+    NOT?: ReviewWhereInput | ReviewWhereInput[]
+    id?: StringFilter<"Review"> | string
+    mode?: EnumReviewModeFilter<"Review"> | $Enums.ReviewMode
+    status?: EnumReviewStatusFilter<"Review"> | $Enums.ReviewStatus
+    repositoryId?: StringNullableFilter<"Review"> | string | null
+    githubRepositoryId?: BigIntFilter<"Review"> | bigint | number
+    owner?: StringFilter<"Review"> | string
+    name?: StringFilter<"Review"> | string
+    prNumber?: IntFilter<"Review"> | number
+    prTitle?: StringFilter<"Review"> | string
+    prUrl?: StringNullableFilter<"Review"> | string | null
+    headSha?: StringFilter<"Review"> | string
+    jobId?: StringNullableFilter<"Review"> | string | null
+    findingsTotal?: IntFilter<"Review"> | number
+    findingsCritical?: IntFilter<"Review"> | number
+    findingsHigh?: IntFilter<"Review"> | number
+    findingsMedium?: IntFilter<"Review"> | number
+    findingsLow?: IntFilter<"Review"> | number
+    findingsInfo?: IntFilter<"Review"> | number
+    errorMessage?: StringNullableFilter<"Review"> | string | null
+    startedAt?: DateTimeNullableFilter<"Review"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"Review"> | Date | string | null
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    updatedAt?: DateTimeFilter<"Review"> | Date | string
+    repository?: XOR<RepositoryNullableRelationFilter, RepositoryWhereInput> | null
+    job?: XOR<ReviewJobNullableRelationFilter, ReviewJobWhereInput> | null
+    findings?: FindingListRelationFilter
+  }
+
+  export type ReviewOrderByWithRelationInput = {
+    id?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    repositoryId?: SortOrderInput | SortOrder
+    githubRepositoryId?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    prNumber?: SortOrder
+    prTitle?: SortOrder
+    prUrl?: SortOrderInput | SortOrder
+    headSha?: SortOrder
+    jobId?: SortOrderInput | SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    repository?: RepositoryOrderByWithRelationInput
+    job?: ReviewJobOrderByWithRelationInput
+    findings?: FindingOrderByRelationAggregateInput
+  }
+
+  export type ReviewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReviewWhereInput | ReviewWhereInput[]
+    OR?: ReviewWhereInput[]
+    NOT?: ReviewWhereInput | ReviewWhereInput[]
+    mode?: EnumReviewModeFilter<"Review"> | $Enums.ReviewMode
+    status?: EnumReviewStatusFilter<"Review"> | $Enums.ReviewStatus
+    repositoryId?: StringNullableFilter<"Review"> | string | null
+    githubRepositoryId?: BigIntFilter<"Review"> | bigint | number
+    owner?: StringFilter<"Review"> | string
+    name?: StringFilter<"Review"> | string
+    prNumber?: IntFilter<"Review"> | number
+    prTitle?: StringFilter<"Review"> | string
+    prUrl?: StringNullableFilter<"Review"> | string | null
+    headSha?: StringFilter<"Review"> | string
+    jobId?: StringNullableFilter<"Review"> | string | null
+    findingsTotal?: IntFilter<"Review"> | number
+    findingsCritical?: IntFilter<"Review"> | number
+    findingsHigh?: IntFilter<"Review"> | number
+    findingsMedium?: IntFilter<"Review"> | number
+    findingsLow?: IntFilter<"Review"> | number
+    findingsInfo?: IntFilter<"Review"> | number
+    errorMessage?: StringNullableFilter<"Review"> | string | null
+    startedAt?: DateTimeNullableFilter<"Review"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"Review"> | Date | string | null
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    updatedAt?: DateTimeFilter<"Review"> | Date | string
+    repository?: XOR<RepositoryNullableRelationFilter, RepositoryWhereInput> | null
+    job?: XOR<ReviewJobNullableRelationFilter, ReviewJobWhereInput> | null
+    findings?: FindingListRelationFilter
+  }, "id">
+
+  export type ReviewOrderByWithAggregationInput = {
+    id?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    repositoryId?: SortOrderInput | SortOrder
+    githubRepositoryId?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    prNumber?: SortOrder
+    prTitle?: SortOrder
+    prUrl?: SortOrderInput | SortOrder
+    headSha?: SortOrder
+    jobId?: SortOrderInput | SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReviewCountOrderByAggregateInput
+    _avg?: ReviewAvgOrderByAggregateInput
+    _max?: ReviewMaxOrderByAggregateInput
+    _min?: ReviewMinOrderByAggregateInput
+    _sum?: ReviewSumOrderByAggregateInput
+  }
+
+  export type ReviewScalarWhereWithAggregatesInput = {
+    AND?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
+    OR?: ReviewScalarWhereWithAggregatesInput[]
+    NOT?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Review"> | string
+    mode?: EnumReviewModeWithAggregatesFilter<"Review"> | $Enums.ReviewMode
+    status?: EnumReviewStatusWithAggregatesFilter<"Review"> | $Enums.ReviewStatus
+    repositoryId?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    githubRepositoryId?: BigIntWithAggregatesFilter<"Review"> | bigint | number
+    owner?: StringWithAggregatesFilter<"Review"> | string
+    name?: StringWithAggregatesFilter<"Review"> | string
+    prNumber?: IntWithAggregatesFilter<"Review"> | number
+    prTitle?: StringWithAggregatesFilter<"Review"> | string
+    prUrl?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    headSha?: StringWithAggregatesFilter<"Review"> | string
+    jobId?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    findingsTotal?: IntWithAggregatesFilter<"Review"> | number
+    findingsCritical?: IntWithAggregatesFilter<"Review"> | number
+    findingsHigh?: IntWithAggregatesFilter<"Review"> | number
+    findingsMedium?: IntWithAggregatesFilter<"Review"> | number
+    findingsLow?: IntWithAggregatesFilter<"Review"> | number
+    findingsInfo?: IntWithAggregatesFilter<"Review"> | number
+    errorMessage?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"Review"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"Review"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
+  }
+
+  export type FindingWhereInput = {
+    AND?: FindingWhereInput | FindingWhereInput[]
+    OR?: FindingWhereInput[]
+    NOT?: FindingWhereInput | FindingWhereInput[]
+    id?: StringFilter<"Finding"> | string
+    reviewId?: StringFilter<"Finding"> | string
+    source?: EnumFindingSourceFilter<"Finding"> | $Enums.FindingSource
+    category?: EnumFindingCategoryFilter<"Finding"> | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFilter<"Finding"> | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFilter<"Finding"> | $Enums.FindingConfidence
+    filePath?: StringFilter<"Finding"> | string
+    lineStart?: IntFilter<"Finding"> | number
+    lineEnd?: IntNullableFilter<"Finding"> | number | null
+    message?: StringFilter<"Finding"> | string
+    evidence?: StringNullableFilter<"Finding"> | string | null
+    recommendation?: StringNullableFilter<"Finding"> | string | null
+    validationStatus?: EnumFindingValidationStatusFilter<"Finding"> | $Enums.FindingValidationStatus
+    fingerprint?: StringFilter<"Finding"> | string
+    createdAt?: DateTimeFilter<"Finding"> | Date | string
+    review?: XOR<ReviewRelationFilter, ReviewWhereInput>
+  }
+
+  export type FindingOrderByWithRelationInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    source?: SortOrder
+    category?: SortOrder
+    severity?: SortOrder
+    confidence?: SortOrder
+    filePath?: SortOrder
+    lineStart?: SortOrder
+    lineEnd?: SortOrderInput | SortOrder
+    message?: SortOrder
+    evidence?: SortOrderInput | SortOrder
+    recommendation?: SortOrderInput | SortOrder
+    validationStatus?: SortOrder
+    fingerprint?: SortOrder
+    createdAt?: SortOrder
+    review?: ReviewOrderByWithRelationInput
+  }
+
+  export type FindingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FindingWhereInput | FindingWhereInput[]
+    OR?: FindingWhereInput[]
+    NOT?: FindingWhereInput | FindingWhereInput[]
+    reviewId?: StringFilter<"Finding"> | string
+    source?: EnumFindingSourceFilter<"Finding"> | $Enums.FindingSource
+    category?: EnumFindingCategoryFilter<"Finding"> | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFilter<"Finding"> | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFilter<"Finding"> | $Enums.FindingConfidence
+    filePath?: StringFilter<"Finding"> | string
+    lineStart?: IntFilter<"Finding"> | number
+    lineEnd?: IntNullableFilter<"Finding"> | number | null
+    message?: StringFilter<"Finding"> | string
+    evidence?: StringNullableFilter<"Finding"> | string | null
+    recommendation?: StringNullableFilter<"Finding"> | string | null
+    validationStatus?: EnumFindingValidationStatusFilter<"Finding"> | $Enums.FindingValidationStatus
+    fingerprint?: StringFilter<"Finding"> | string
+    createdAt?: DateTimeFilter<"Finding"> | Date | string
+    review?: XOR<ReviewRelationFilter, ReviewWhereInput>
+  }, "id">
+
+  export type FindingOrderByWithAggregationInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    source?: SortOrder
+    category?: SortOrder
+    severity?: SortOrder
+    confidence?: SortOrder
+    filePath?: SortOrder
+    lineStart?: SortOrder
+    lineEnd?: SortOrderInput | SortOrder
+    message?: SortOrder
+    evidence?: SortOrderInput | SortOrder
+    recommendation?: SortOrderInput | SortOrder
+    validationStatus?: SortOrder
+    fingerprint?: SortOrder
+    createdAt?: SortOrder
+    _count?: FindingCountOrderByAggregateInput
+    _avg?: FindingAvgOrderByAggregateInput
+    _max?: FindingMaxOrderByAggregateInput
+    _min?: FindingMinOrderByAggregateInput
+    _sum?: FindingSumOrderByAggregateInput
+  }
+
+  export type FindingScalarWhereWithAggregatesInput = {
+    AND?: FindingScalarWhereWithAggregatesInput | FindingScalarWhereWithAggregatesInput[]
+    OR?: FindingScalarWhereWithAggregatesInput[]
+    NOT?: FindingScalarWhereWithAggregatesInput | FindingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Finding"> | string
+    reviewId?: StringWithAggregatesFilter<"Finding"> | string
+    source?: EnumFindingSourceWithAggregatesFilter<"Finding"> | $Enums.FindingSource
+    category?: EnumFindingCategoryWithAggregatesFilter<"Finding"> | $Enums.FindingCategory
+    severity?: EnumFindingSeverityWithAggregatesFilter<"Finding"> | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceWithAggregatesFilter<"Finding"> | $Enums.FindingConfidence
+    filePath?: StringWithAggregatesFilter<"Finding"> | string
+    lineStart?: IntWithAggregatesFilter<"Finding"> | number
+    lineEnd?: IntNullableWithAggregatesFilter<"Finding"> | number | null
+    message?: StringWithAggregatesFilter<"Finding"> | string
+    evidence?: StringNullableWithAggregatesFilter<"Finding"> | string | null
+    recommendation?: StringNullableWithAggregatesFilter<"Finding"> | string | null
+    validationStatus?: EnumFindingValidationStatusWithAggregatesFilter<"Finding"> | $Enums.FindingValidationStatus
+    fingerprint?: StringWithAggregatesFilter<"Finding"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Finding"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -8125,6 +11363,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     ownerUser?: UserCreateNestedOneWithoutRepositoriesInput
+    reviews?: ReviewCreateNestedManyWithoutRepositoryInput
   }
 
   export type RepositoryUncheckedCreateInput = {
@@ -8138,6 +11377,7 @@ export namespace Prisma {
     ownedByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    reviews?: ReviewUncheckedCreateNestedManyWithoutRepositoryInput
   }
 
   export type RepositoryUpdateInput = {
@@ -8151,6 +11391,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerUser?: UserUpdateOneWithoutRepositoriesNestedInput
+    reviews?: ReviewUpdateManyWithoutRepositoryNestedInput
   }
 
   export type RepositoryUncheckedUpdateInput = {
@@ -8164,6 +11405,7 @@ export namespace Prisma {
     ownedByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviews?: ReviewUncheckedUpdateManyWithoutRepositoryNestedInput
   }
 
   export type RepositoryCreateManyInput = {
@@ -8364,6 +11606,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     completedAt?: Date | string | null
+    reviews?: ReviewCreateNestedManyWithoutJobInput
   }
 
   export type ReviewJobUncheckedCreateInput = {
@@ -8380,6 +11623,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     completedAt?: Date | string | null
+    reviews?: ReviewUncheckedCreateNestedManyWithoutJobInput
   }
 
   export type ReviewJobUpdateInput = {
@@ -8396,6 +11640,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviews?: ReviewUpdateManyWithoutJobNestedInput
   }
 
   export type ReviewJobUncheckedUpdateInput = {
@@ -8412,6 +11657,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviews?: ReviewUncheckedUpdateManyWithoutJobNestedInput
   }
 
   export type ReviewJobCreateManyInput = {
@@ -8460,6 +11706,315 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReviewCreateInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    repository?: RepositoryCreateNestedOneWithoutReviewsInput
+    job?: ReviewJobCreateNestedOneWithoutReviewsInput
+    findings?: FindingCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewUncheckedCreateInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    repositoryId?: string | null
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    jobId?: string | null
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    findings?: FindingUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    repository?: RepositoryUpdateOneWithoutReviewsNestedInput
+    job?: ReviewJobUpdateOneWithoutReviewsNestedInput
+    findings?: FindingUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    repositoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    findings?: FindingUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewCreateManyInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    repositoryId?: string | null
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    jobId?: string | null
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    repositoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FindingCreateInput = {
+    id?: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd?: number | null
+    message: string
+    evidence?: string | null
+    recommendation?: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt?: Date | string
+    review: ReviewCreateNestedOneWithoutFindingsInput
+  }
+
+  export type FindingUncheckedCreateInput = {
+    id?: string
+    reviewId: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd?: number | null
+    message: string
+    evidence?: string | null
+    recommendation?: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt?: Date | string
+  }
+
+  export type FindingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    review?: ReviewUpdateOneRequiredWithoutFindingsNestedInput
+  }
+
+  export type FindingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reviewId?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FindingCreateManyInput = {
+    id?: string
+    reviewId: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd?: number | null
+    message: string
+    evidence?: string | null
+    recommendation?: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt?: Date | string
+  }
+
+  export type FindingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FindingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reviewId?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8708,9 +12263,19 @@ export namespace Prisma {
     isNot?: UserWhereInput | null
   }
 
+  export type ReviewListRelationFilter = {
+    every?: ReviewWhereInput
+    some?: ReviewWhereInput
+    none?: ReviewWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type RepositoryCountOrderByAggregateInput = {
@@ -9011,6 +12576,341 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type EnumReviewModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewMode | EnumReviewModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewModeFilter<$PrismaModel> | $Enums.ReviewMode
+  }
+
+  export type EnumReviewStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewStatus | EnumReviewStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewStatusFilter<$PrismaModel> | $Enums.ReviewStatus
+  }
+
+  export type RepositoryNullableRelationFilter = {
+    is?: RepositoryWhereInput | null
+    isNot?: RepositoryWhereInput | null
+  }
+
+  export type ReviewJobNullableRelationFilter = {
+    is?: ReviewJobWhereInput | null
+    isNot?: ReviewJobWhereInput | null
+  }
+
+  export type FindingListRelationFilter = {
+    every?: FindingWhereInput
+    some?: FindingWhereInput
+    none?: FindingWhereInput
+  }
+
+  export type FindingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReviewCountOrderByAggregateInput = {
+    id?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    repositoryId?: SortOrder
+    githubRepositoryId?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    prNumber?: SortOrder
+    prTitle?: SortOrder
+    prUrl?: SortOrder
+    headSha?: SortOrder
+    jobId?: SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+    errorMessage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReviewAvgOrderByAggregateInput = {
+    githubRepositoryId?: SortOrder
+    prNumber?: SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+  }
+
+  export type ReviewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    repositoryId?: SortOrder
+    githubRepositoryId?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    prNumber?: SortOrder
+    prTitle?: SortOrder
+    prUrl?: SortOrder
+    headSha?: SortOrder
+    jobId?: SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+    errorMessage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReviewMinOrderByAggregateInput = {
+    id?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    repositoryId?: SortOrder
+    githubRepositoryId?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    prNumber?: SortOrder
+    prTitle?: SortOrder
+    prUrl?: SortOrder
+    headSha?: SortOrder
+    jobId?: SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+    errorMessage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReviewSumOrderByAggregateInput = {
+    githubRepositoryId?: SortOrder
+    prNumber?: SortOrder
+    findingsTotal?: SortOrder
+    findingsCritical?: SortOrder
+    findingsHigh?: SortOrder
+    findingsMedium?: SortOrder
+    findingsLow?: SortOrder
+    findingsInfo?: SortOrder
+  }
+
+  export type EnumReviewModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewMode | EnumReviewModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewModeWithAggregatesFilter<$PrismaModel> | $Enums.ReviewMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReviewModeFilter<$PrismaModel>
+    _max?: NestedEnumReviewModeFilter<$PrismaModel>
+  }
+
+  export type EnumReviewStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewStatus | EnumReviewStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReviewStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReviewStatusFilter<$PrismaModel>
+    _max?: NestedEnumReviewStatusFilter<$PrismaModel>
+  }
+
+  export type EnumFindingSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSource | EnumFindingSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSourceFilter<$PrismaModel> | $Enums.FindingSource
+  }
+
+  export type EnumFindingCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingCategory | EnumFindingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingCategoryFilter<$PrismaModel> | $Enums.FindingCategory
+  }
+
+  export type EnumFindingSeverityFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSeverity | EnumFindingSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSeverityFilter<$PrismaModel> | $Enums.FindingSeverity
+  }
+
+  export type EnumFindingConfidenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingConfidence | EnumFindingConfidenceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingConfidenceFilter<$PrismaModel> | $Enums.FindingConfidence
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumFindingValidationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingValidationStatus | EnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingValidationStatusFilter<$PrismaModel> | $Enums.FindingValidationStatus
+  }
+
+  export type ReviewRelationFilter = {
+    is?: ReviewWhereInput
+    isNot?: ReviewWhereInput
+  }
+
+  export type FindingCountOrderByAggregateInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    source?: SortOrder
+    category?: SortOrder
+    severity?: SortOrder
+    confidence?: SortOrder
+    filePath?: SortOrder
+    lineStart?: SortOrder
+    lineEnd?: SortOrder
+    message?: SortOrder
+    evidence?: SortOrder
+    recommendation?: SortOrder
+    validationStatus?: SortOrder
+    fingerprint?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FindingAvgOrderByAggregateInput = {
+    lineStart?: SortOrder
+    lineEnd?: SortOrder
+  }
+
+  export type FindingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    source?: SortOrder
+    category?: SortOrder
+    severity?: SortOrder
+    confidence?: SortOrder
+    filePath?: SortOrder
+    lineStart?: SortOrder
+    lineEnd?: SortOrder
+    message?: SortOrder
+    evidence?: SortOrder
+    recommendation?: SortOrder
+    validationStatus?: SortOrder
+    fingerprint?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FindingMinOrderByAggregateInput = {
+    id?: SortOrder
+    reviewId?: SortOrder
+    source?: SortOrder
+    category?: SortOrder
+    severity?: SortOrder
+    confidence?: SortOrder
+    filePath?: SortOrder
+    lineStart?: SortOrder
+    lineEnd?: SortOrder
+    message?: SortOrder
+    evidence?: SortOrder
+    recommendation?: SortOrder
+    validationStatus?: SortOrder
+    fingerprint?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FindingSumOrderByAggregateInput = {
+    lineStart?: SortOrder
+    lineEnd?: SortOrder
+  }
+
+  export type EnumFindingSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSource | EnumFindingSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSourceWithAggregatesFilter<$PrismaModel> | $Enums.FindingSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingSourceFilter<$PrismaModel>
+    _max?: NestedEnumFindingSourceFilter<$PrismaModel>
+  }
+
+  export type EnumFindingCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingCategory | EnumFindingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingCategoryWithAggregatesFilter<$PrismaModel> | $Enums.FindingCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingCategoryFilter<$PrismaModel>
+    _max?: NestedEnumFindingCategoryFilter<$PrismaModel>
+  }
+
+  export type EnumFindingSeverityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSeverity | EnumFindingSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSeverityWithAggregatesFilter<$PrismaModel> | $Enums.FindingSeverity
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingSeverityFilter<$PrismaModel>
+    _max?: NestedEnumFindingSeverityFilter<$PrismaModel>
+  }
+
+  export type EnumFindingConfidenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingConfidence | EnumFindingConfidenceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingConfidenceWithAggregatesFilter<$PrismaModel> | $Enums.FindingConfidence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingConfidenceFilter<$PrismaModel>
+    _max?: NestedEnumFindingConfidenceFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumFindingValidationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingValidationStatus | EnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingValidationStatusWithAggregatesFilter<$PrismaModel> | $Enums.FindingValidationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingValidationStatusFilter<$PrismaModel>
+    _max?: NestedEnumFindingValidationStatusFilter<$PrismaModel>
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -9173,6 +13073,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ReviewCreateNestedManyWithoutRepositoryInput = {
+    create?: XOR<ReviewCreateWithoutRepositoryInput, ReviewUncheckedCreateWithoutRepositoryInput> | ReviewCreateWithoutRepositoryInput[] | ReviewUncheckedCreateWithoutRepositoryInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutRepositoryInput | ReviewCreateOrConnectWithoutRepositoryInput[]
+    createMany?: ReviewCreateManyRepositoryInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReviewUncheckedCreateNestedManyWithoutRepositoryInput = {
+    create?: XOR<ReviewCreateWithoutRepositoryInput, ReviewUncheckedCreateWithoutRepositoryInput> | ReviewCreateWithoutRepositoryInput[] | ReviewUncheckedCreateWithoutRepositoryInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutRepositoryInput | ReviewCreateOrConnectWithoutRepositoryInput[]
+    createMany?: ReviewCreateManyRepositoryInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -9187,8 +13101,36 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRepositoriesInput, UserUpdateWithoutRepositoriesInput>, UserUncheckedUpdateWithoutRepositoriesInput>
   }
 
+  export type ReviewUpdateManyWithoutRepositoryNestedInput = {
+    create?: XOR<ReviewCreateWithoutRepositoryInput, ReviewUncheckedCreateWithoutRepositoryInput> | ReviewCreateWithoutRepositoryInput[] | ReviewUncheckedCreateWithoutRepositoryInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutRepositoryInput | ReviewCreateOrConnectWithoutRepositoryInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutRepositoryInput | ReviewUpsertWithWhereUniqueWithoutRepositoryInput[]
+    createMany?: ReviewCreateManyRepositoryInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutRepositoryInput | ReviewUpdateWithWhereUniqueWithoutRepositoryInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutRepositoryInput | ReviewUpdateManyWithWhereWithoutRepositoryInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutRepositoryNestedInput = {
+    create?: XOR<ReviewCreateWithoutRepositoryInput, ReviewUncheckedCreateWithoutRepositoryInput> | ReviewCreateWithoutRepositoryInput[] | ReviewUncheckedCreateWithoutRepositoryInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutRepositoryInput | ReviewCreateOrConnectWithoutRepositoryInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutRepositoryInput | ReviewUpsertWithWhereUniqueWithoutRepositoryInput[]
+    createMany?: ReviewCreateManyRepositoryInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutRepositoryInput | ReviewUpdateWithWhereUniqueWithoutRepositoryInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutRepositoryInput | ReviewUpdateManyWithWhereWithoutRepositoryInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRepositoryInstallationsInput = {
@@ -9215,6 +13157,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRepositoryInstallationsInput, UserUpdateWithoutRepositoryInstallationsInput>, UserUncheckedUpdateWithoutRepositoryInstallationsInput>
   }
 
+  export type ReviewCreateNestedManyWithoutJobInput = {
+    create?: XOR<ReviewCreateWithoutJobInput, ReviewUncheckedCreateWithoutJobInput> | ReviewCreateWithoutJobInput[] | ReviewUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutJobInput | ReviewCreateOrConnectWithoutJobInput[]
+    createMany?: ReviewCreateManyJobInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReviewUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<ReviewCreateWithoutJobInput, ReviewUncheckedCreateWithoutJobInput> | ReviewCreateWithoutJobInput[] | ReviewUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutJobInput | ReviewCreateOrConnectWithoutJobInput[]
+    createMany?: ReviewCreateManyJobInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
   export type EnumReviewJobStatusFieldUpdateOperationsInput = {
     set?: $Enums.ReviewJobStatus
   }
@@ -9225,6 +13181,158 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ReviewUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ReviewCreateWithoutJobInput, ReviewUncheckedCreateWithoutJobInput> | ReviewCreateWithoutJobInput[] | ReviewUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutJobInput | ReviewCreateOrConnectWithoutJobInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutJobInput | ReviewUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ReviewCreateManyJobInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutJobInput | ReviewUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutJobInput | ReviewUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ReviewCreateWithoutJobInput, ReviewUncheckedCreateWithoutJobInput> | ReviewCreateWithoutJobInput[] | ReviewUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutJobInput | ReviewCreateOrConnectWithoutJobInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutJobInput | ReviewUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ReviewCreateManyJobInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutJobInput | ReviewUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutJobInput | ReviewUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type RepositoryCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<RepositoryCreateWithoutReviewsInput, RepositoryUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: RepositoryCreateOrConnectWithoutReviewsInput
+    connect?: RepositoryWhereUniqueInput
+  }
+
+  export type ReviewJobCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<ReviewJobCreateWithoutReviewsInput, ReviewJobUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: ReviewJobCreateOrConnectWithoutReviewsInput
+    connect?: ReviewJobWhereUniqueInput
+  }
+
+  export type FindingCreateNestedManyWithoutReviewInput = {
+    create?: XOR<FindingCreateWithoutReviewInput, FindingUncheckedCreateWithoutReviewInput> | FindingCreateWithoutReviewInput[] | FindingUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: FindingCreateOrConnectWithoutReviewInput | FindingCreateOrConnectWithoutReviewInput[]
+    createMany?: FindingCreateManyReviewInputEnvelope
+    connect?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+  }
+
+  export type FindingUncheckedCreateNestedManyWithoutReviewInput = {
+    create?: XOR<FindingCreateWithoutReviewInput, FindingUncheckedCreateWithoutReviewInput> | FindingCreateWithoutReviewInput[] | FindingUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: FindingCreateOrConnectWithoutReviewInput | FindingCreateOrConnectWithoutReviewInput[]
+    createMany?: FindingCreateManyReviewInputEnvelope
+    connect?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+  }
+
+  export type EnumReviewModeFieldUpdateOperationsInput = {
+    set?: $Enums.ReviewMode
+  }
+
+  export type EnumReviewStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ReviewStatus
+  }
+
+  export type RepositoryUpdateOneWithoutReviewsNestedInput = {
+    create?: XOR<RepositoryCreateWithoutReviewsInput, RepositoryUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: RepositoryCreateOrConnectWithoutReviewsInput
+    upsert?: RepositoryUpsertWithoutReviewsInput
+    disconnect?: RepositoryWhereInput | boolean
+    delete?: RepositoryWhereInput | boolean
+    connect?: RepositoryWhereUniqueInput
+    update?: XOR<XOR<RepositoryUpdateToOneWithWhereWithoutReviewsInput, RepositoryUpdateWithoutReviewsInput>, RepositoryUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type ReviewJobUpdateOneWithoutReviewsNestedInput = {
+    create?: XOR<ReviewJobCreateWithoutReviewsInput, ReviewJobUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: ReviewJobCreateOrConnectWithoutReviewsInput
+    upsert?: ReviewJobUpsertWithoutReviewsInput
+    disconnect?: ReviewJobWhereInput | boolean
+    delete?: ReviewJobWhereInput | boolean
+    connect?: ReviewJobWhereUniqueInput
+    update?: XOR<XOR<ReviewJobUpdateToOneWithWhereWithoutReviewsInput, ReviewJobUpdateWithoutReviewsInput>, ReviewJobUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type FindingUpdateManyWithoutReviewNestedInput = {
+    create?: XOR<FindingCreateWithoutReviewInput, FindingUncheckedCreateWithoutReviewInput> | FindingCreateWithoutReviewInput[] | FindingUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: FindingCreateOrConnectWithoutReviewInput | FindingCreateOrConnectWithoutReviewInput[]
+    upsert?: FindingUpsertWithWhereUniqueWithoutReviewInput | FindingUpsertWithWhereUniqueWithoutReviewInput[]
+    createMany?: FindingCreateManyReviewInputEnvelope
+    set?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    disconnect?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    delete?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    connect?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    update?: FindingUpdateWithWhereUniqueWithoutReviewInput | FindingUpdateWithWhereUniqueWithoutReviewInput[]
+    updateMany?: FindingUpdateManyWithWhereWithoutReviewInput | FindingUpdateManyWithWhereWithoutReviewInput[]
+    deleteMany?: FindingScalarWhereInput | FindingScalarWhereInput[]
+  }
+
+  export type FindingUncheckedUpdateManyWithoutReviewNestedInput = {
+    create?: XOR<FindingCreateWithoutReviewInput, FindingUncheckedCreateWithoutReviewInput> | FindingCreateWithoutReviewInput[] | FindingUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: FindingCreateOrConnectWithoutReviewInput | FindingCreateOrConnectWithoutReviewInput[]
+    upsert?: FindingUpsertWithWhereUniqueWithoutReviewInput | FindingUpsertWithWhereUniqueWithoutReviewInput[]
+    createMany?: FindingCreateManyReviewInputEnvelope
+    set?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    disconnect?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    delete?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    connect?: FindingWhereUniqueInput | FindingWhereUniqueInput[]
+    update?: FindingUpdateWithWhereUniqueWithoutReviewInput | FindingUpdateWithWhereUniqueWithoutReviewInput[]
+    updateMany?: FindingUpdateManyWithWhereWithoutReviewInput | FindingUpdateManyWithWhereWithoutReviewInput[]
+    deleteMany?: FindingScalarWhereInput | FindingScalarWhereInput[]
+  }
+
+  export type ReviewCreateNestedOneWithoutFindingsInput = {
+    create?: XOR<ReviewCreateWithoutFindingsInput, ReviewUncheckedCreateWithoutFindingsInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutFindingsInput
+    connect?: ReviewWhereUniqueInput
+  }
+
+  export type EnumFindingSourceFieldUpdateOperationsInput = {
+    set?: $Enums.FindingSource
+  }
+
+  export type EnumFindingCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.FindingCategory
+  }
+
+  export type EnumFindingSeverityFieldUpdateOperationsInput = {
+    set?: $Enums.FindingSeverity
+  }
+
+  export type EnumFindingConfidenceFieldUpdateOperationsInput = {
+    set?: $Enums.FindingConfidence
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumFindingValidationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.FindingValidationStatus
+  }
+
+  export type ReviewUpdateOneRequiredWithoutFindingsNestedInput = {
+    create?: XOR<ReviewCreateWithoutFindingsInput, ReviewUncheckedCreateWithoutFindingsInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutFindingsInput
+    upsert?: ReviewUpsertWithoutFindingsInput
+    connect?: ReviewWhereUniqueInput
+    update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutFindingsInput, ReviewUpdateWithoutFindingsInput>, ReviewUncheckedUpdateWithoutFindingsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9484,6 +13592,152 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type NestedEnumReviewModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewMode | EnumReviewModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewModeFilter<$PrismaModel> | $Enums.ReviewMode
+  }
+
+  export type NestedEnumReviewStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewStatus | EnumReviewStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewStatusFilter<$PrismaModel> | $Enums.ReviewStatus
+  }
+
+  export type NestedEnumReviewModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewMode | EnumReviewModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewMode[] | ListEnumReviewModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewModeWithAggregatesFilter<$PrismaModel> | $Enums.ReviewMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReviewModeFilter<$PrismaModel>
+    _max?: NestedEnumReviewModeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumReviewStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReviewStatus | EnumReviewStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReviewStatus[] | ListEnumReviewStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReviewStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReviewStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReviewStatusFilter<$PrismaModel>
+    _max?: NestedEnumReviewStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFindingSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSource | EnumFindingSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSourceFilter<$PrismaModel> | $Enums.FindingSource
+  }
+
+  export type NestedEnumFindingCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingCategory | EnumFindingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingCategoryFilter<$PrismaModel> | $Enums.FindingCategory
+  }
+
+  export type NestedEnumFindingSeverityFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSeverity | EnumFindingSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSeverityFilter<$PrismaModel> | $Enums.FindingSeverity
+  }
+
+  export type NestedEnumFindingConfidenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingConfidence | EnumFindingConfidenceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingConfidenceFilter<$PrismaModel> | $Enums.FindingConfidence
+  }
+
+  export type NestedEnumFindingValidationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingValidationStatus | EnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingValidationStatusFilter<$PrismaModel> | $Enums.FindingValidationStatus
+  }
+
+  export type NestedEnumFindingSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSource | EnumFindingSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSource[] | ListEnumFindingSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSourceWithAggregatesFilter<$PrismaModel> | $Enums.FindingSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingSourceFilter<$PrismaModel>
+    _max?: NestedEnumFindingSourceFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFindingCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingCategory | EnumFindingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingCategory[] | ListEnumFindingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingCategoryWithAggregatesFilter<$PrismaModel> | $Enums.FindingCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingCategoryFilter<$PrismaModel>
+    _max?: NestedEnumFindingCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFindingSeverityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingSeverity | EnumFindingSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingSeverity[] | ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingSeverityWithAggregatesFilter<$PrismaModel> | $Enums.FindingSeverity
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingSeverityFilter<$PrismaModel>
+    _max?: NestedEnumFindingSeverityFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFindingConfidenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingConfidence | EnumFindingConfidenceFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingConfidence[] | ListEnumFindingConfidenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingConfidenceWithAggregatesFilter<$PrismaModel> | $Enums.FindingConfidence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingConfidenceFilter<$PrismaModel>
+    _max?: NestedEnumFindingConfidenceFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumFindingValidationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FindingValidationStatus | EnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FindingValidationStatus[] | ListEnumFindingValidationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFindingValidationStatusWithAggregatesFilter<$PrismaModel> | $Enums.FindingValidationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFindingValidationStatusFilter<$PrismaModel>
+    _max?: NestedEnumFindingValidationStatusFilter<$PrismaModel>
+  }
+
   export type SessionCreateWithoutUserInput = {
     id: string
     data: JsonNullValueInput | InputJsonValue
@@ -9518,6 +13772,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    reviews?: ReviewCreateNestedManyWithoutRepositoryInput
   }
 
   export type RepositoryUncheckedCreateWithoutOwnerUserInput = {
@@ -9530,6 +13785,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    reviews?: ReviewUncheckedCreateNestedManyWithoutRepositoryInput
   }
 
   export type RepositoryCreateOrConnectWithoutOwnerUserInput = {
@@ -9748,6 +14004,68 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutRepositoriesInput, UserUncheckedCreateWithoutRepositoriesInput>
   }
 
+  export type ReviewCreateWithoutRepositoryInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    job?: ReviewJobCreateNestedOneWithoutReviewsInput
+    findings?: FindingCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewUncheckedCreateWithoutRepositoryInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    jobId?: string | null
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    findings?: FindingUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewCreateOrConnectWithoutRepositoryInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutRepositoryInput, ReviewUncheckedCreateWithoutRepositoryInput>
+  }
+
+  export type ReviewCreateManyRepositoryInputEnvelope = {
+    data: ReviewCreateManyRepositoryInput | ReviewCreateManyRepositoryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutRepositoriesInput = {
     update: XOR<UserUpdateWithoutRepositoriesInput, UserUncheckedUpdateWithoutRepositoriesInput>
     create: XOR<UserCreateWithoutRepositoriesInput, UserUncheckedCreateWithoutRepositoriesInput>
@@ -9777,6 +14095,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     repositoryInstallations?: RepositoryInstallationUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  }
+
+  export type ReviewUpsertWithWhereUniqueWithoutRepositoryInput = {
+    where: ReviewWhereUniqueInput
+    update: XOR<ReviewUpdateWithoutRepositoryInput, ReviewUncheckedUpdateWithoutRepositoryInput>
+    create: XOR<ReviewCreateWithoutRepositoryInput, ReviewUncheckedCreateWithoutRepositoryInput>
+  }
+
+  export type ReviewUpdateWithWhereUniqueWithoutRepositoryInput = {
+    where: ReviewWhereUniqueInput
+    data: XOR<ReviewUpdateWithoutRepositoryInput, ReviewUncheckedUpdateWithoutRepositoryInput>
+  }
+
+  export type ReviewUpdateManyWithWhereWithoutRepositoryInput = {
+    where: ReviewScalarWhereInput
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutRepositoryInput>
+  }
+
+  export type ReviewScalarWhereInput = {
+    AND?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+    OR?: ReviewScalarWhereInput[]
+    NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+    id?: StringFilter<"Review"> | string
+    mode?: EnumReviewModeFilter<"Review"> | $Enums.ReviewMode
+    status?: EnumReviewStatusFilter<"Review"> | $Enums.ReviewStatus
+    repositoryId?: StringNullableFilter<"Review"> | string | null
+    githubRepositoryId?: BigIntFilter<"Review"> | bigint | number
+    owner?: StringFilter<"Review"> | string
+    name?: StringFilter<"Review"> | string
+    prNumber?: IntFilter<"Review"> | number
+    prTitle?: StringFilter<"Review"> | string
+    prUrl?: StringNullableFilter<"Review"> | string | null
+    headSha?: StringFilter<"Review"> | string
+    jobId?: StringNullableFilter<"Review"> | string | null
+    findingsTotal?: IntFilter<"Review"> | number
+    findingsCritical?: IntFilter<"Review"> | number
+    findingsHigh?: IntFilter<"Review"> | number
+    findingsMedium?: IntFilter<"Review"> | number
+    findingsLow?: IntFilter<"Review"> | number
+    findingsInfo?: IntFilter<"Review"> | number
+    errorMessage?: StringNullableFilter<"Review"> | string | null
+    startedAt?: DateTimeNullableFilter<"Review"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"Review"> | Date | string | null
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    updatedAt?: DateTimeFilter<"Review"> | Date | string
   }
 
   export type UserCreateWithoutRepositoryInstallationsInput = {
@@ -9833,6 +14196,433 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     repositories?: RepositoryUncheckedUpdateManyWithoutOwnerUserNestedInput
+  }
+
+  export type ReviewCreateWithoutJobInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    repository?: RepositoryCreateNestedOneWithoutReviewsInput
+    findings?: FindingCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewUncheckedCreateWithoutJobInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    repositoryId?: string | null
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    findings?: FindingUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewCreateOrConnectWithoutJobInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutJobInput, ReviewUncheckedCreateWithoutJobInput>
+  }
+
+  export type ReviewCreateManyJobInputEnvelope = {
+    data: ReviewCreateManyJobInput | ReviewCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReviewUpsertWithWhereUniqueWithoutJobInput = {
+    where: ReviewWhereUniqueInput
+    update: XOR<ReviewUpdateWithoutJobInput, ReviewUncheckedUpdateWithoutJobInput>
+    create: XOR<ReviewCreateWithoutJobInput, ReviewUncheckedCreateWithoutJobInput>
+  }
+
+  export type ReviewUpdateWithWhereUniqueWithoutJobInput = {
+    where: ReviewWhereUniqueInput
+    data: XOR<ReviewUpdateWithoutJobInput, ReviewUncheckedUpdateWithoutJobInput>
+  }
+
+  export type ReviewUpdateManyWithWhereWithoutJobInput = {
+    where: ReviewScalarWhereInput
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type RepositoryCreateWithoutReviewsInput = {
+    id?: string
+    githubRepositoryId: bigint | number
+    githubInstallationId: bigint | number
+    owner: string
+    name: string
+    fullName: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownerUser?: UserCreateNestedOneWithoutRepositoriesInput
+  }
+
+  export type RepositoryUncheckedCreateWithoutReviewsInput = {
+    id?: string
+    githubRepositoryId: bigint | number
+    githubInstallationId: bigint | number
+    owner: string
+    name: string
+    fullName: string
+    isActive?: boolean
+    ownedByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RepositoryCreateOrConnectWithoutReviewsInput = {
+    where: RepositoryWhereUniqueInput
+    create: XOR<RepositoryCreateWithoutReviewsInput, RepositoryUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type ReviewJobCreateWithoutReviewsInput = {
+    id?: string
+    status?: $Enums.ReviewJobStatus
+    installationId: bigint | number
+    repositoryId: bigint | number
+    prNumber: number
+    headSha: string
+    attempts?: number
+    maxAttempts?: number
+    leaseExpiresAt?: Date | string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type ReviewJobUncheckedCreateWithoutReviewsInput = {
+    id?: string
+    status?: $Enums.ReviewJobStatus
+    installationId: bigint | number
+    repositoryId: bigint | number
+    prNumber: number
+    headSha: string
+    attempts?: number
+    maxAttempts?: number
+    leaseExpiresAt?: Date | string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type ReviewJobCreateOrConnectWithoutReviewsInput = {
+    where: ReviewJobWhereUniqueInput
+    create: XOR<ReviewJobCreateWithoutReviewsInput, ReviewJobUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type FindingCreateWithoutReviewInput = {
+    id?: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd?: number | null
+    message: string
+    evidence?: string | null
+    recommendation?: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt?: Date | string
+  }
+
+  export type FindingUncheckedCreateWithoutReviewInput = {
+    id?: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd?: number | null
+    message: string
+    evidence?: string | null
+    recommendation?: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt?: Date | string
+  }
+
+  export type FindingCreateOrConnectWithoutReviewInput = {
+    where: FindingWhereUniqueInput
+    create: XOR<FindingCreateWithoutReviewInput, FindingUncheckedCreateWithoutReviewInput>
+  }
+
+  export type FindingCreateManyReviewInputEnvelope = {
+    data: FindingCreateManyReviewInput | FindingCreateManyReviewInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RepositoryUpsertWithoutReviewsInput = {
+    update: XOR<RepositoryUpdateWithoutReviewsInput, RepositoryUncheckedUpdateWithoutReviewsInput>
+    create: XOR<RepositoryCreateWithoutReviewsInput, RepositoryUncheckedCreateWithoutReviewsInput>
+    where?: RepositoryWhereInput
+  }
+
+  export type RepositoryUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: RepositoryWhereInput
+    data: XOR<RepositoryUpdateWithoutReviewsInput, RepositoryUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type RepositoryUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    githubInstallationId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerUser?: UserUpdateOneWithoutRepositoriesNestedInput
+  }
+
+  export type RepositoryUncheckedUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    githubInstallationId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    ownedByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewJobUpsertWithoutReviewsInput = {
+    update: XOR<ReviewJobUpdateWithoutReviewsInput, ReviewJobUncheckedUpdateWithoutReviewsInput>
+    create: XOR<ReviewJobCreateWithoutReviewsInput, ReviewJobUncheckedCreateWithoutReviewsInput>
+    where?: ReviewJobWhereInput
+  }
+
+  export type ReviewJobUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: ReviewJobWhereInput
+    data: XOR<ReviewJobUpdateWithoutReviewsInput, ReviewJobUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type ReviewJobUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumReviewJobStatusFieldUpdateOperationsInput | $Enums.ReviewJobStatus
+    installationId?: BigIntFieldUpdateOperationsInput | bigint | number
+    repositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    prNumber?: IntFieldUpdateOperationsInput | number
+    headSha?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    maxAttempts?: IntFieldUpdateOperationsInput | number
+    leaseExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReviewJobUncheckedUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumReviewJobStatusFieldUpdateOperationsInput | $Enums.ReviewJobStatus
+    installationId?: BigIntFieldUpdateOperationsInput | bigint | number
+    repositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    prNumber?: IntFieldUpdateOperationsInput | number
+    headSha?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    maxAttempts?: IntFieldUpdateOperationsInput | number
+    leaseExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FindingUpsertWithWhereUniqueWithoutReviewInput = {
+    where: FindingWhereUniqueInput
+    update: XOR<FindingUpdateWithoutReviewInput, FindingUncheckedUpdateWithoutReviewInput>
+    create: XOR<FindingCreateWithoutReviewInput, FindingUncheckedCreateWithoutReviewInput>
+  }
+
+  export type FindingUpdateWithWhereUniqueWithoutReviewInput = {
+    where: FindingWhereUniqueInput
+    data: XOR<FindingUpdateWithoutReviewInput, FindingUncheckedUpdateWithoutReviewInput>
+  }
+
+  export type FindingUpdateManyWithWhereWithoutReviewInput = {
+    where: FindingScalarWhereInput
+    data: XOR<FindingUpdateManyMutationInput, FindingUncheckedUpdateManyWithoutReviewInput>
+  }
+
+  export type FindingScalarWhereInput = {
+    AND?: FindingScalarWhereInput | FindingScalarWhereInput[]
+    OR?: FindingScalarWhereInput[]
+    NOT?: FindingScalarWhereInput | FindingScalarWhereInput[]
+    id?: StringFilter<"Finding"> | string
+    reviewId?: StringFilter<"Finding"> | string
+    source?: EnumFindingSourceFilter<"Finding"> | $Enums.FindingSource
+    category?: EnumFindingCategoryFilter<"Finding"> | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFilter<"Finding"> | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFilter<"Finding"> | $Enums.FindingConfidence
+    filePath?: StringFilter<"Finding"> | string
+    lineStart?: IntFilter<"Finding"> | number
+    lineEnd?: IntNullableFilter<"Finding"> | number | null
+    message?: StringFilter<"Finding"> | string
+    evidence?: StringNullableFilter<"Finding"> | string | null
+    recommendation?: StringNullableFilter<"Finding"> | string | null
+    validationStatus?: EnumFindingValidationStatusFilter<"Finding"> | $Enums.FindingValidationStatus
+    fingerprint?: StringFilter<"Finding"> | string
+    createdAt?: DateTimeFilter<"Finding"> | Date | string
+  }
+
+  export type ReviewCreateWithoutFindingsInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    repository?: RepositoryCreateNestedOneWithoutReviewsInput
+    job?: ReviewJobCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateWithoutFindingsInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    repositoryId?: string | null
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    jobId?: string | null
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewCreateOrConnectWithoutFindingsInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutFindingsInput, ReviewUncheckedCreateWithoutFindingsInput>
+  }
+
+  export type ReviewUpsertWithoutFindingsInput = {
+    update: XOR<ReviewUpdateWithoutFindingsInput, ReviewUncheckedUpdateWithoutFindingsInput>
+    create: XOR<ReviewCreateWithoutFindingsInput, ReviewUncheckedCreateWithoutFindingsInput>
+    where?: ReviewWhereInput
+  }
+
+  export type ReviewUpdateToOneWithWhereWithoutFindingsInput = {
+    where?: ReviewWhereInput
+    data: XOR<ReviewUpdateWithoutFindingsInput, ReviewUncheckedUpdateWithoutFindingsInput>
+  }
+
+  export type ReviewUpdateWithoutFindingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    repository?: RepositoryUpdateOneWithoutReviewsNestedInput
+    job?: ReviewJobUpdateOneWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutFindingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    repositoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -9897,6 +14687,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviews?: ReviewUpdateManyWithoutRepositoryNestedInput
   }
 
   export type RepositoryUncheckedUpdateWithoutOwnerUserInput = {
@@ -9909,6 +14700,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviews?: ReviewUncheckedUpdateManyWithoutRepositoryNestedInput
   }
 
   export type RepositoryUncheckedUpdateManyWithoutOwnerUserInput = {
@@ -9959,6 +14751,278 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReviewCreateManyRepositoryInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    jobId?: string | null
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewUpdateWithoutRepositoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: ReviewJobUpdateOneWithoutReviewsNestedInput
+    findings?: FindingUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutRepositoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    findings?: FindingUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutRepositoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewCreateManyJobInput = {
+    id?: string
+    mode?: $Enums.ReviewMode
+    status?: $Enums.ReviewStatus
+    repositoryId?: string | null
+    githubRepositoryId: bigint | number
+    owner: string
+    name: string
+    prNumber: number
+    prTitle: string
+    prUrl?: string | null
+    headSha: string
+    findingsTotal?: number
+    findingsCritical?: number
+    findingsHigh?: number
+    findingsMedium?: number
+    findingsLow?: number
+    findingsInfo?: number
+    errorMessage?: string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    repository?: RepositoryUpdateOneWithoutReviewsNestedInput
+    findings?: FindingUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    repositoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    findings?: FindingUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mode?: EnumReviewModeFieldUpdateOperationsInput | $Enums.ReviewMode
+    status?: EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+    repositoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    githubRepositoryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prNumber?: IntFieldUpdateOperationsInput | number
+    prTitle?: StringFieldUpdateOperationsInput | string
+    prUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    headSha?: StringFieldUpdateOperationsInput | string
+    findingsTotal?: IntFieldUpdateOperationsInput | number
+    findingsCritical?: IntFieldUpdateOperationsInput | number
+    findingsHigh?: IntFieldUpdateOperationsInput | number
+    findingsMedium?: IntFieldUpdateOperationsInput | number
+    findingsLow?: IntFieldUpdateOperationsInput | number
+    findingsInfo?: IntFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FindingCreateManyReviewInput = {
+    id?: string
+    source: $Enums.FindingSource
+    category: $Enums.FindingCategory
+    severity: $Enums.FindingSeverity
+    confidence: $Enums.FindingConfidence
+    filePath: string
+    lineStart: number
+    lineEnd?: number | null
+    message: string
+    evidence?: string | null
+    recommendation?: string | null
+    validationStatus: $Enums.FindingValidationStatus
+    fingerprint: string
+    createdAt?: Date | string
+  }
+
+  export type FindingUpdateWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FindingUncheckedUpdateWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FindingUncheckedUpdateManyWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumFindingSourceFieldUpdateOperationsInput | $Enums.FindingSource
+    category?: EnumFindingCategoryFieldUpdateOperationsInput | $Enums.FindingCategory
+    severity?: EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+    confidence?: EnumFindingConfidenceFieldUpdateOperationsInput | $Enums.FindingConfidence
+    filePath?: StringFieldUpdateOperationsInput | string
+    lineStart?: IntFieldUpdateOperationsInput | number
+    lineEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    message?: StringFieldUpdateOperationsInput | string
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    validationStatus?: EnumFindingValidationStatusFieldUpdateOperationsInput | $Enums.FindingValidationStatus
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -9968,6 +15032,18 @@ export namespace Prisma {
      * @deprecated Use UserCountOutputTypeDefaultArgs instead
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RepositoryCountOutputTypeDefaultArgs instead
+     */
+    export type RepositoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RepositoryCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReviewJobCountOutputTypeDefaultArgs instead
+     */
+    export type ReviewJobCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReviewJobCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReviewCountOutputTypeDefaultArgs instead
+     */
+    export type ReviewCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReviewCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -9992,6 +15068,14 @@ export namespace Prisma {
      * @deprecated Use ReviewJobDefaultArgs instead
      */
     export type ReviewJobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReviewJobDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReviewDefaultArgs instead
+     */
+    export type ReviewArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReviewDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use FindingDefaultArgs instead
+     */
+    export type FindingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = FindingDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

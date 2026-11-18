@@ -1,2 +1,8 @@
-// TODO: implement in Milestone M4 — unified diff parser, hunk mapping, changed-line annotation positions
-export {};
+export {
+  parseFilePatch,
+  parseUnifiedDiff,
+  getAddedLineNumbers,
+  isAddedLine,
+  findFileDiff,
+} from './parse.js';
+export type { DiffLineType, DiffLine, DiffHunk, ParsedFileDiff } from './types.js';

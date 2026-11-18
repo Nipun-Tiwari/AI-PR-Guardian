@@ -1,0 +1,17 @@
+rules:
+  - id: prguardian.javascript.lang.security.detect-eval-with-expression
+    message: Detected use of eval() which can lead to code injection.
+    languages:
+      - javascript
+      - typescript
+    severity: ERROR
+    patterns:
+      - pattern: eval(...)
+  - id: prguardian.javascript.lang.security.detect-new-function
+    message: Detected use of new Function() which can lead to code injection.
+    languages:
+      - javascript
+      - typescript
+    severity: ERROR
+    patterns:
+      - pattern: new Function(...)

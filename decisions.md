@@ -14,33 +14,34 @@ Maintained as the single source of truth for significant architectural, technica
 
 ## Decision Index
 
-| #     | Date       | Decision                                                                                        | Status |
-| ----- | ---------- | ----------------------------------------------------------------------------------------------- | ------ |
-| D-001 | 2026-10-17 | Monorepo structure: npm workspaces + Turborepo                                                  | Active |
-| D-002 | 2026-10-17 | Authentication: GitHub App OAuth + server-side sessions in PostgreSQL                           | Active |
-| D-003 | 2026-10-17 | API versioning: `/api/v1/` prefix for all application routes                                    | Active |
-| D-004 | 2026-10-17 | Shared domain contracts: `FindingV1`, `ReviewSummaryV1`, `ApiProblemV1` in `@prguardian/shared` | Active |
-| D-005 | 2026-10-17 | Semgrep: Community Edition CLI subprocess in worker Docker image                                | Active |
-| D-006 | 2026-10-17 | GitHub installation tokens: Octokit App SDK, never persisted in DB                              | Active |
-| D-007 | 2026-10-17 | Error contract: `application/problem+json` (RFC 7807) for all API errors                        | Active |
-| D-008 | 2026-10-17 | Database migrations: Prisma Migrate, forward-only, expand-and-contract                          | Active |
-| D-009 | 2026-10-17 | Rate limiting: in-memory express-rate-limit for API abuse; DB-backed budgets for live reviews   | Active |
-| D-010 | 2026-10-17 | Worker/queue: PostgreSQL polling queue, no Redis in MVP                                         | Active |
-| D-011 | 2026-10-17 | Deployment: PostgreSQL `FOR UPDATE SKIP LOCKED` job claiming; combined runtime for free-tier    | Active |
-| D-012 | 2026-10-17 | Webhook tunneling: ngrok on port 3001 for local development                                     | Active |
-| D-013 | 2026-10-17 | Pricing catalog: versioned JSON in `packages/shared/src/pricing/pricing-catalog.json`           | Active |
-| D-014 | 2026-10-17 | CI/CD workflow: all changes via PR branch, CI must pass before merge to main                    | Active |
-| D-015 | 2026-10-17 | TypeScript: strict mode, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`               | Active |
-| D-016 | 2026-10-21 | Demo fixture domain: `acme-corp/api-gateway` (rate limiting PR)                                 | Active |
-| D-017 | 2026-10-21 | Frontend CSS framework: Tailwind CSS v4 with `@tailwindcss/vite` plugin                         | Active |
-| D-018 | 2026-10-21 | CORS strategy: conditional, `API_CORS_ORIGIN` env var, dev-only by convention                   | Active |
-| D-019 | 2026-10-21 | Fixture storage: `packages/shared/src/fixtures/` — shared by API and frontend                   | Active |
-| D-020 | 2026-10-21 | Fixture fingerprint: SHA-256 of `filePath:lineStart:message`, hex-encoded, 16-char prefix       | Active |
-| D-021 | 2026-10-21 | Frontend data strategy: API-driven (primary); fixtures importable for offline fallback only     | Active |
-| D-022 | 2026-10-21 | Frontend module type: `"type": "module"` in `apps/web/package.json` for ESM-only Tailwind v4    | Active |
-| D-023 | 2026-10-24 | Session store: custom Prisma adapter for `express-session` — reuses existing `Session` model    | Active |
-| D-024 | 2026-10-24 | OAuth state storage: signed `HttpOnly; SameSite=Strict` cookie (10-min TTL), not a session row  | Active |
-| D-025 | 2026-10-24 | BigInt serialization: all Prisma `BigInt` fields converted to string at API response boundary   | Active |
+| #     | Date       | Decision                                                                                         | Status |
+| ----- | ---------- | ------------------------------------------------------------------------------------------------ | ------ |
+| D-001 | 2026-10-17 | Monorepo structure: npm workspaces + Turborepo                                                   | Active |
+| D-002 | 2026-10-17 | Authentication: GitHub App OAuth + server-side sessions in PostgreSQL                            | Active |
+| D-003 | 2026-10-17 | API versioning: `/api/v1/` prefix for all application routes                                     | Active |
+| D-004 | 2026-10-17 | Shared domain contracts: `FindingV1`, `ReviewSummaryV1`, `ApiProblemV1` in `@prguardian/shared`  | Active |
+| D-005 | 2026-10-17 | Semgrep: Community Edition CLI subprocess in worker Docker image                                 | Active |
+| D-006 | 2026-10-17 | GitHub installation tokens: Octokit App SDK, never persisted in DB                               | Active |
+| D-007 | 2026-10-17 | Error contract: `application/problem+json` (RFC 7807) for all API errors                         | Active |
+| D-008 | 2026-10-17 | Database migrations: Prisma Migrate, forward-only, expand-and-contract                           | Active |
+| D-009 | 2026-10-17 | Rate limiting: in-memory express-rate-limit for API abuse; DB-backed budgets for live reviews    | Active |
+| D-010 | 2026-10-17 | Worker/queue: PostgreSQL polling queue, no Redis in MVP                                          | Active |
+| D-011 | 2026-10-17 | Deployment: PostgreSQL `FOR UPDATE SKIP LOCKED` job claiming; combined runtime for free-tier     | Active |
+| D-012 | 2026-10-17 | Webhook tunneling: ngrok on port 3001 for local development                                      | Active |
+| D-013 | 2026-10-17 | Pricing catalog: versioned JSON in `packages/shared/src/pricing/pricing-catalog.json`            | Active |
+| D-014 | 2026-10-17 | CI/CD workflow: all changes via PR branch, CI must pass before merge to main                     | Active |
+| D-015 | 2026-10-17 | TypeScript: strict mode, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`                | Active |
+| D-016 | 2026-10-21 | Demo fixture domain: `acme-corp/api-gateway` (rate limiting PR)                                  | Active |
+| D-017 | 2026-10-21 | Frontend CSS framework: Tailwind CSS v4 with `@tailwindcss/vite` plugin                          | Active |
+| D-018 | 2026-10-21 | CORS strategy: conditional, `API_CORS_ORIGIN` env var, dev-only by convention                    | Active |
+| D-019 | 2026-10-21 | Fixture storage: `packages/shared/src/fixtures/` — shared by API and frontend                    | Active |
+| D-020 | 2026-10-21 | Fixture fingerprint: SHA-256 of `filePath:lineStart:message`, hex-encoded, 16-char prefix        | Active |
+| D-021 | 2026-10-21 | Frontend data strategy: API-driven (primary); fixtures importable for offline fallback only      | Active |
+| D-022 | 2026-10-21 | Frontend module type: `"type": "module"` in `apps/web/package.json` for ESM-only Tailwind v4     | Active |
+| D-023 | 2026-10-24 | Session store: custom Prisma adapter for `express-session` — reuses existing `Session` model     | Active |
+| D-024 | 2026-10-24 | OAuth state storage: signed `HttpOnly; SameSite=Strict` cookie (10-min TTL), not a session row   | Active |
+| D-025 | 2026-10-24 | BigInt serialization: all Prisma `BigInt` fields converted to string at API response boundary    | Active |
+| D-028 | 2026-11-18 | M4 static analysis: ESLint JS-only + pinned Semgrep 1.97.0 CLI; findings filtered to added lines | Active |
 
 ---
 
@@ -342,3 +343,14 @@ Maintained as the single source of truth for significant architectural, technica
 **Alternatives:** Global raw-body middleware (disrupts all other routes), `rawBody` npm package (extra dependency).
 **Rationale:** `express.raw()` is built into Express 4. Scoping it to the webhook router via mount order is the minimal, zero-dependency approach. The scoped raw parser runs only for `/webhooks/github`.
 **Consequences:** The webhook handler must JSON-parse `req.body.toString('utf8')` manually after signature verification. All other routes continue to receive a parsed JS object in `req.body` from `express.json()`.
+
+---
+
+### D-028 — M4 Static Analysis Tooling
+
+**Date:** 2026-11-18
+**Decision:** Run ESLint programmatically on changed `.js`/`.jsx`/`.cjs`/`.mjs` files only, and run Semgrep Community Edition `1.97.0` as a CLI subprocess with local rules. Persist findings only when they map to added lines in the PR diff.
+**Context:** M4 needs deterministic scanners before LLM review. typescript-eslint adds heavy toolchain cost for the worker image; Semgrep already covers TypeScript patterns.
+**Alternatives:** ESLint+typescript-eslint for all TS files, Semgrep Cloud, CodeQL.
+**Rationale:** Keeps the worker image smaller while still producing deterministic `FindingV1` rows with `source: 'static_rule'`. Added-line filtering prevents annotations on unchanged context.
+**Consequences:** Worker Docker image installs pinned Semgrep. Scanner failures are recorded but do not erase findings from successful scanners. `STATIC_ANALYSIS_ENABLED` gates the pipeline.
