@@ -1,6 +1,7 @@
 import { getClient } from '@prguardian/database';
 import { logger } from '@prguardian/observability';
 import type { WorkerConfig } from '../config.js';
+import { processReviewJob } from './pipeline.js';
 
 export interface ReviewJobRow {
   id: string;
@@ -48,18 +49,12 @@ export async function claimJob(config: WorkerConfig): Promise<ReviewJobRow | nul
   });
 }
 
-export async function processJob(job: ReviewJobRow): Promise<void> {
-  const db = getClient();
-
+export async function processJob(job: ReviewJobRow, config: WorkerConfig): Promise<void> {
   logger.info(
     { jobId: job.id, prNumber: job.pr_number, installationId: String(job.installation_id) },
-    'Processing job (pipeline not implemented in M3)',
+    'Processing review job',
   );
-
-  await db.reviewJob.update({
-    where: { id: job.id },
-    data: { status: 'succeeded', completedAt: new Date() },
-  });
+  await processReviewJob(job, config);
 }
 
 export async function handleJobFailure(

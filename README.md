@@ -92,10 +92,13 @@ pr-guardian/
 │   ├── worker/     Background job worker (M3+)
 │   └── runtime/    Combined API+worker for zero-cost hosting
 ├── packages/
-│   ├── shared/     Versioned Zod schemas and types
-│   ├── database/   Prisma ORM and migrations
-│   ├── observability/  Structured logging (pino)
-│   └── ...         Stub packages for future milestones
+│   ├── shared/          Versioned Zod schemas and types
+│   ├── database/        Prisma ORM and migrations
+│   ├── observability/   Structured logging (pino)
+│   ├── github-client/   GitHub App Octokit client (M4)
+│   ├── diff-engine/     Unified diff / added-line mapping (M4)
+│   ├── static-analysis/ ESLint + Semgrep adapters (M4)
+│   └── ...              Stub packages for later milestones
 ├── docs/
 │   ├── adr/        Architecture decision records
 │   └── local-webhook-setup.md
@@ -129,9 +132,9 @@ See [docs/local-webhook-setup.md](docs/local-webhook-setup.md) for ngrok setup a
 | Milestone | Scope                                         |
 | --------- | --------------------------------------------- |
 | **M0** ✅ | Monorepo scaffold, shared schemas, CI, Docker |
-| **M1**    | Public demo dashboard with fixture data       |
-| **M2**    | GitHub App auth and repository installation   |
-| **M3**    | Webhook ingress and PostgreSQL job queue      |
+| **M1** ✅ | Public demo dashboard with fixture data       |
+| **M2** ✅ | GitHub App auth and repository installation   |
+| **M3** ✅ | Webhook ingress and PostgreSQL job queue      |
 | **M4**    | Diff processing and static analysis           |
 | **M5**    | LLM review and finding validation             |
 | **M6**    | GitHub Check Run publishing                   |

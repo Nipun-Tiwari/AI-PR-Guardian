@@ -4,12 +4,22 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc --build",
     "typecheck": "tsc --build --noEmit",
-    "lint": "eslint src"
+    "lint": "eslint src tests",
+    "test": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0"
+    "@types/node": "^22.0.0",
+    "vitest": "^2.1.9"
   }
 }

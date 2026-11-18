@@ -1,7 +1,11 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { getClient } from '@prguardian/database';
-import { claimJob, processJob, handleJobFailure, type ReviewJobRow } from '../src/lib/jobQueue.js';
+import { claimJob, handleJobFailure, type ReviewJobRow } from '../src/lib/jobQueue.js';
 import { workerConfig } from '../src/config.js';
+
+vi.mock('../src/lib/pipeline.js', () => ({
+  processReviewJob: vi.fn().mockResolvedValue(undefined),
+}));
 
 const db = getClient();
 
@@ -28,6 +32,8 @@ async function createPendingJob(
 }
 
 afterEach(async () => {
+  await db.finding.deleteMany({});
+  await db.review.deleteMany({});
   await db.reviewJob.deleteMany({});
 });
 
@@ -80,32 +86,6 @@ describe('claimJob', () => {
     const claimed = await claimJob(workerConfig);
     expect(claimed).not.toBeNull();
     expect(claimed!.id).toBe(id);
-  });
-});
-
-describe('processJob (M3 stub)', () => {
-  it('marks job as succeeded', async () => {
-    const id = await createPendingJob();
-    const row = await db.reviewJob.findUniqueOrThrow({ where: { id } });
-
-    const jobRow: ReviewJobRow = {
-      id: row.id,
-      status: row.status,
-      installation_id: row.installationId,
-      repository_id: row.repositoryId,
-      pr_number: row.prNumber,
-      head_sha: row.headSha,
-      attempts: row.attempts,
-      max_attempts: row.maxAttempts,
-      lease_expires_at: row.leaseExpiresAt,
-      created_at: row.createdAt,
-    };
-
-    await processJob(jobRow);
-
-    const updated = await db.reviewJob.findUniqueOrThrow({ where: { id } });
-    expect(updated.status).toBe('succeeded');
-    expect(updated.completedAt).not.toBeNull();
   });
 });
 

@@ -60,7 +60,8 @@ model Repository {
   createdAt            DateTime @default(now()) @map("created_at")
   updatedAt            DateTime @updatedAt @map("updated_at")
 
-  ownerUser User? @relation(fields: [ownedByUserId], references: [id])
+  ownerUser User?    @relation(fields: [ownedByUserId], references: [id])
+  reviews   Review[]
 
   @@index([githubInstallationId])
   @@index([ownedByUserId])
@@ -112,7 +113,118 @@ model ReviewJob {
   updatedAt      DateTime        @updatedAt @map("updated_at")
   completedAt    DateTime?       @map("completed_at")
 
+  reviews Review[]
+
   @@index([status, leaseExpiresAt])
   @@index([createdAt])
   @@map("review_jobs")
+}
+
+enum ReviewMode {
+  demo
+  live
+}
+
+enum ReviewStatus {
+  queued
+  running
+  succeeded
+  failed
+  cancelled
+  partial
+}
+
+enum FindingSource {
+  demo_fixture
+  static_rule
+  llm
+}
+
+enum FindingCategory {
+  security
+  bug
+  error_handling
+  performance
+  test_coverage
+  style
+}
+
+enum FindingSeverity {
+  critical
+  high
+  medium
+  low
+  info
+}
+
+enum FindingConfidence {
+  high
+  medium
+  low
+}
+
+enum FindingValidationStatus {
+  valid
+  invalid_location
+  low_confidence
+  rejected
+}
+
+model Review {
+  id                 String       @id @default(uuid())
+  mode               ReviewMode   @default(live)
+  status             ReviewStatus @default(queued)
+  repositoryId       String?      @map("repository_id")
+  githubRepositoryId BigInt       @map("github_repository_id")
+  owner              String
+  name               String
+  prNumber           Int          @map("pr_number")
+  prTitle            String       @map("pr_title")
+  prUrl              String?      @map("pr_url")
+  headSha            String       @map("head_sha")
+  jobId              String?      @map("job_id")
+  findingsTotal      Int          @default(0) @map("findings_total")
+  findingsCritical   Int          @default(0) @map("findings_critical")
+  findingsHigh       Int          @default(0) @map("findings_high")
+  findingsMedium     Int          @default(0) @map("findings_medium")
+  findingsLow        Int          @default(0) @map("findings_low")
+  findingsInfo       Int          @default(0) @map("findings_info")
+  errorMessage       String?      @map("error_message")
+  startedAt          DateTime?    @map("started_at")
+  completedAt        DateTime?    @map("completed_at")
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @updatedAt @map("updated_at")
+
+  repository Repository? @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
+  job        ReviewJob?  @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  findings   Finding[]
+
+  @@index([repositoryId, createdAt])
+  @@index([jobId])
+  @@index([githubRepositoryId, prNumber, headSha])
+  @@map("reviews")
+}
+
+model Finding {
+  id               String                  @id @default(uuid())
+  reviewId         String                  @map("review_id")
+  source           FindingSource
+  category         FindingCategory
+  severity         FindingSeverity
+  confidence       FindingConfidence
+  filePath         String                  @map("file_path")
+  lineStart        Int                     @map("line_start")
+  lineEnd          Int?                    @map("line_end")
+  message          String
+  evidence         String?
+  recommendation   String?
+  validationStatus FindingValidationStatus @map("validation_status")
+  fingerprint      String
+  createdAt        DateTime                @default(now()) @map("created_at")
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@index([reviewId])
+  @@index([fingerprint])
+  @@map("findings")
 }
