@@ -98,7 +98,9 @@ pr-guardian/
 │   ├── github-client/   GitHub App Octokit client (M4)
 │   ├── diff-engine/     Unified diff / added-line mapping (M4)
 │   ├── static-analysis/ ESLint + Semgrep adapters (M4)
-│   └── ...              Stub packages for later milestones
+│   ├── ai-review/       LLM provider adapter (M5)
+│   ├── finding-engine/  Finding validate/dedupe (M5)
+│   └── ...              Later milestone packages
 ├── docs/
 │   ├── adr/        Architecture decision records
 │   └── local-webhook-setup.md
@@ -135,7 +137,7 @@ See [docs/local-webhook-setup.md](docs/local-webhook-setup.md) for ngrok setup a
 | **M1** ✅ | Public demo dashboard with fixture data       |
 | **M2** ✅ | GitHub App auth and repository installation   |
 | **M3** ✅ | Webhook ingress and PostgreSQL job queue      |
-| **M4**    | Diff processing and static analysis           |
+| **M4** ✅ | Diff processing and static analysis           |
 | **M5**    | LLM review and finding validation             |
 | **M6**    | GitHub Check Run publishing                   |
 | **M7**    | Live dashboard and feedback                   |

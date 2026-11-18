@@ -1,2 +1,2 @@
-// TODO: implement in Milestone M5 — finding normalizer, validator, deduplicator
-export {};
+export { normalizeFindings } from './normalize.js';
+export type { NormalizeOptions, NormalizeResult } from './normalize.js';

@@ -208,10 +208,25 @@ exports.Prisma.ReviewScalarFieldEnum = {
   findingsLow: 'findingsLow',
   findingsInfo: 'findingsInfo',
   errorMessage: 'errorMessage',
+  estimatedCostUsd: 'estimatedCostUsd',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReviewUsageScalarFieldEnum = {
+  id: 'id',
+  reviewId: 'reviewId',
+  provider: 'provider',
+  modelId: 'modelId',
+  catalogVersion: 'catalogVersion',
+  inputTokens: 'inputTokens',
+  outputTokens: 'outputTokens',
+  estimatedCostUsd: 'estimatedCostUsd',
+  currency: 'currency',
+  skippedReason: 'skippedReason',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.FindingScalarFieldEnum = {
@@ -326,6 +341,7 @@ exports.Prisma.ModelName = {
   WebhookDelivery: 'WebhookDelivery',
   ReviewJob: 'ReviewJob',
   Review: 'Review',
+  ReviewUsage: 'ReviewUsage',
   Finding: 'Finding'
 };
 
