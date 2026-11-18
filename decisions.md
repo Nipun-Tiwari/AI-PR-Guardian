@@ -42,6 +42,7 @@ Maintained as the single source of truth for significant architectural, technica
 | D-024 | 2026-10-24 | OAuth state storage: signed `HttpOnly; SameSite=Strict` cookie (10-min TTL), not a session row   | Active |
 | D-025 | 2026-10-24 | BigInt serialization: all Prisma `BigInt` fields converted to string at API response boundary    | Active |
 | D-028 | 2026-11-18 | M4 static analysis: ESLint JS-only + pinned Semgrep 1.97.0 CLI; findings filtered to added lines | Active |
+| D-029 | 2026-11-18 | M5 AI: Anthropic adapter + finding-engine validation; usage rows; cost limit discards AI only    | Active |
 
 ---
 
@@ -354,3 +355,14 @@ Maintained as the single source of truth for significant architectural, technica
 **Alternatives:** ESLint+typescript-eslint for all TS files, Semgrep Cloud, CodeQL.
 **Rationale:** Keeps the worker image smaller while still producing deterministic `FindingV1` rows with `source: 'static_rule'`. Added-line filtering prevents annotations on unchanged context.
 **Consequences:** Worker Docker image installs pinned Semgrep. Scanner failures are recorded but do not erase findings from successful scanners. `STATIC_ANALYSIS_ENABLED` gates the pipeline.
+
+---
+
+### D-029 — M5 AI Review and Validation
+
+**Date:** 2026-11-18
+**Decision:** Implement `@prguardian/ai-review` (Anthropic Messages API, structured JSON only) and `@prguardian/finding-engine` (Zod validate, fingerprint dedupe, added-line checks). Persist `ReviewUsage` with frozen `catalogVersion` cost estimates. When `COST_LIMIT_ENFORCED` and estimated cost exceeds `AI_MAX_COST_USD_PER_REVIEW`, discard AI findings but keep static findings.
+**Context:** M5 requires bounded, provenance-tagged LLM findings without bypassing schema validation or blowing review budgets.
+**Alternatives:** Persist raw model text, skip cost accounting until M7, hard-code prices in worker.
+**Rationale:** Matches D-004/D-013 and Module F/G acceptance: AI-disabled still yields static findings; invalid JSON never becomes findings; historical costs are not recomputed.
+**Consequences:** Worker requires `AI_API_KEY` only when `AI_REVIEW_ENABLED=true`. LLM calls stay outside DB transactions. Check Run publishing remains M6.

@@ -1,9 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { getClient } from '@prguardian/database';
 import { GitHubAppClient } from '@prguardian/github-client';
-import { isAddedLine, parseFilePatch, type ParsedFileDiff } from '@prguardian/diff-engine';
+import { parseFilePatch, type ParsedFileDiff } from '@prguardian/diff-engine';
 import { runStaticAnalysis, type AnalyzableFile } from '@prguardian/static-analysis';
-import type { FindingV1 } from '@prguardian/shared';
+import { runAiReview } from '@prguardian/ai-review';
+import { normalizeFindings } from '@prguardian/finding-engine';
+import { estimateCostUsd, type FindingV1 } from '@prguardian/shared';
 import { logger } from '@prguardian/observability';
 import type { WorkerConfig } from '../config.js';
 import type { ReviewJobRow } from './jobQueue.js';
@@ -23,23 +25,6 @@ function summarizeFindings(findings: FindingV1[]) {
   return summary;
 }
 
-function filterToAddedLines(findings: FindingV1[], diffs: ParsedFileDiff[]): FindingV1[] {
-  return findings
-    .map((finding) => {
-      const file = diffs.find(
-        (d) => d.newPath === finding.filePath || d.oldPath === finding.filePath,
-      );
-      if (!file) {
-        return { ...finding, validationStatus: 'invalid_location' as const };
-      }
-      if (!isAddedLine(file, finding.lineStart)) {
-        return { ...finding, validationStatus: 'invalid_location' as const };
-      }
-      return finding;
-    })
-    .filter((f) => f.validationStatus === 'valid');
-}
-
 export async function processReviewJob(job: ReviewJobRow, config: WorkerConfig): Promise<void> {
   const db = getClient();
   const startedAt = new Date();
@@ -54,7 +39,6 @@ export async function processReviewJob(job: ReviewJobRow, config: WorkerConfig):
     apiVersion: config.GITHUB_API_VERSION,
   });
 
-  // Prefer owner/name from DB; fall back to GitHub repository lookup.
   let owner = repository?.owner;
   let name = repository?.name;
   if (!owner || !name) {
@@ -123,17 +107,81 @@ export async function processReviewJob(job: ReviewJobRow, config: WorkerConfig):
       }
     }
 
-    let findings: FindingV1[] = [];
-    const scannerErrors: string[] = [];
+    const candidateFindings: FindingV1[] = [];
+    const pipelineErrors: string[] = [];
+    let estimatedCostUsd: number | null = null;
 
     if (config.STATIC_ANALYSIS_ENABLED) {
       const result = await runStaticAnalysis(analyzable, { reviewId });
-      findings = filterToAddedLines(result.findings, diffs);
-      scannerErrors.push(...result.errors);
+      candidateFindings.push(...result.findings);
+      pipelineErrors.push(...result.errors.map((e) => `static: ${e}`));
     } else {
       logger.info({ jobId: job.id }, 'STATIC_ANALYSIS_ENABLED=false; skipping scanners');
     }
 
+    if (config.AI_REVIEW_ENABLED) {
+      const aiResult = await runAiReview(
+        {
+          reviewId,
+          repository: { owner, name },
+          pullRequest: {
+            number: pr.number,
+            title: pr.title,
+            headSha: job.head_sha,
+          },
+          files: analyzable,
+          staticFindings: candidateFindings.filter((f) => f.source === 'static_rule'),
+        },
+        {
+          provider: config.AI_PROVIDER,
+          modelId: config.AI_MODEL_ID,
+          apiKey: config.AI_API_KEY ?? '',
+          maxInputTokens: config.AI_MAX_INPUT_TOKENS,
+          maxOutputTokens: config.AI_MAX_OUTPUT_TOKENS,
+        },
+      );
+
+      const cost = estimateCostUsd(config.AI_PROVIDER, config.AI_MODEL_ID, aiResult.usage);
+      estimatedCostUsd = cost.estimatedCostUsd;
+
+      let skippedReason: string | null = null;
+      if (config.COST_LIMIT_ENFORCED && cost.estimatedCostUsd > config.AI_MAX_COST_USD_PER_REVIEW) {
+        skippedReason = `cost_limit_exceeded:${cost.estimatedCostUsd}>${config.AI_MAX_COST_USD_PER_REVIEW}`;
+        pipelineErrors.push(`ai: ${skippedReason}`);
+        logger.warn(
+          { jobId: job.id, estimatedCostUsd: cost.estimatedCostUsd },
+          'AI findings discarded due to cost limit',
+        );
+      } else if (aiResult.rawRejected) {
+        skippedReason = aiResult.error ?? 'ai_response_rejected';
+        pipelineErrors.push(`ai: ${skippedReason}`);
+      } else {
+        candidateFindings.push(...aiResult.findings);
+      }
+
+      await db.reviewUsage.create({
+        data: {
+          reviewId,
+          provider: cost.provider,
+          modelId: cost.modelId,
+          catalogVersion: cost.catalogVersion,
+          inputTokens: cost.inputTokens,
+          outputTokens: cost.outputTokens,
+          estimatedCostUsd: cost.estimatedCostUsd,
+          currency: cost.currency,
+          skippedReason,
+        },
+      });
+    }
+
+    const normalized = normalizeFindings(candidateFindings, diffs);
+    for (const rejection of normalized.rejected) {
+      if (rejection.reason.startsWith('schema')) {
+        pipelineErrors.push(`finding-engine: ${rejection.reason}`);
+      }
+    }
+
+    const findings = normalized.findings;
     const summary = summarizeFindings(findings);
 
     if (findings.length > 0) {
@@ -157,7 +205,12 @@ export async function processReviewJob(job: ReviewJobRow, config: WorkerConfig):
       });
     }
 
-    const status = scannerErrors.length > 0 && findings.length === 0 ? 'partial' : 'succeeded';
+    const status =
+      pipelineErrors.length > 0 && findings.length === 0
+        ? 'partial'
+        : pipelineErrors.some((e) => e.startsWith('ai:')) && findings.length > 0
+          ? 'partial'
+          : 'succeeded';
     const completedAt = new Date();
 
     await db.review.update({
@@ -171,7 +224,8 @@ export async function processReviewJob(job: ReviewJobRow, config: WorkerConfig):
         findingsLow: summary.low,
         findingsInfo: summary.info,
         completedAt,
-        errorMessage: scannerErrors.length > 0 ? scannerErrors.join('; ') : null,
+        estimatedCostUsd,
+        errorMessage: pipelineErrors.length > 0 ? pipelineErrors.join('; ') : null,
       },
     });
 
@@ -185,7 +239,8 @@ export async function processReviewJob(job: ReviewJobRow, config: WorkerConfig):
         jobId: job.id,
         reviewId,
         findings: summary.total,
-        scannerErrors: scannerErrors.length,
+        pipelineErrors: pipelineErrors.length,
+        estimatedCostUsd,
       },
       'Review job completed',
     );

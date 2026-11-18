@@ -10,6 +10,8 @@ COPY packages/observability/package.json ./packages/observability/package.json
 COPY packages/github-client/package.json ./packages/github-client/package.json
 COPY packages/diff-engine/package.json ./packages/diff-engine/package.json
 COPY packages/static-analysis/package.json ./packages/static-analysis/package.json
+COPY packages/ai-review/package.json ./packages/ai-review/package.json
+COPY packages/finding-engine/package.json ./packages/finding-engine/package.json
 
 RUN npm ci --workspace=apps/worker \
            --workspace=packages/shared \
@@ -17,7 +19,9 @@ RUN npm ci --workspace=apps/worker \
            --workspace=packages/observability \
            --workspace=packages/github-client \
            --workspace=packages/diff-engine \
-           --workspace=packages/static-analysis
+           --workspace=packages/static-analysis \
+           --workspace=packages/ai-review \
+           --workspace=packages/finding-engine
 
 COPY apps/worker ./apps/worker
 COPY packages/shared ./packages/shared
@@ -26,12 +30,16 @@ COPY packages/observability ./packages/observability
 COPY packages/github-client ./packages/github-client
 COPY packages/diff-engine ./packages/diff-engine
 COPY packages/static-analysis ./packages/static-analysis
+COPY packages/ai-review ./packages/ai-review
+COPY packages/finding-engine ./packages/finding-engine
 
 RUN npm run build -w packages/shared
 RUN npm run build -w packages/observability
 RUN npm run build -w packages/github-client
 RUN npm run build -w packages/diff-engine
 RUN npm run build -w packages/static-analysis
+RUN npm run build -w packages/ai-review
+RUN npm run build -w packages/finding-engine
 RUN npm run build -w packages/database
 RUN npm run build -w apps/worker
 
@@ -62,6 +70,10 @@ COPY --from=build /app/packages/diff-engine/package.json ./packages/diff-engine/
 COPY --from=build /app/packages/static-analysis/dist ./packages/static-analysis/dist
 COPY --from=build /app/packages/static-analysis/package.json ./packages/static-analysis/package.json
 COPY --from=build /app/packages/static-analysis/rules ./packages/static-analysis/rules
+COPY --from=build /app/packages/ai-review/dist ./packages/ai-review/dist
+COPY --from=build /app/packages/ai-review/package.json ./packages/ai-review/package.json
+COPY --from=build /app/packages/finding-engine/dist ./packages/finding-engine/dist
+COPY --from=build /app/packages/finding-engine/package.json ./packages/finding-engine/package.json
 
 USER node
 

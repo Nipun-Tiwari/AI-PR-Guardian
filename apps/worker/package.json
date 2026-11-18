@@ -14,8 +14,10 @@
     "dev": "tsx watch src/start.ts"
   },
   "dependencies": {
+    "@prguardian/ai-review": "*",
     "@prguardian/database": "*",
     "@prguardian/diff-engine": "*",
+    "@prguardian/finding-engine": "*",
     "@prguardian/github-client": "*",
     "@prguardian/observability": "*",
     "@prguardian/shared": "*",

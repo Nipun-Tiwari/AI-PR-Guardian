@@ -190,19 +190,40 @@ model Review {
   findingsLow        Int          @default(0) @map("findings_low")
   findingsInfo       Int          @default(0) @map("findings_info")
   errorMessage       String?      @map("error_message")
+  estimatedCostUsd   Float?       @map("estimated_cost_usd")
   startedAt          DateTime?    @map("started_at")
   completedAt        DateTime?    @map("completed_at")
   createdAt          DateTime     @default(now()) @map("created_at")
   updatedAt          DateTime     @updatedAt @map("updated_at")
 
-  repository Repository? @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
-  job        ReviewJob?  @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  repository Repository?   @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
+  job        ReviewJob?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
   findings   Finding[]
+  usages     ReviewUsage[]
 
   @@index([repositoryId, createdAt])
   @@index([jobId])
   @@index([githubRepositoryId, prNumber, headSha])
   @@map("reviews")
+}
+
+model ReviewUsage {
+  id               String   @id @default(uuid())
+  reviewId         String   @map("review_id")
+  provider         String
+  modelId          String   @map("model_id")
+  catalogVersion   Int      @map("catalog_version")
+  inputTokens      Int      @map("input_tokens")
+  outputTokens     Int      @map("output_tokens")
+  estimatedCostUsd Float    @map("estimated_cost_usd")
+  currency         String   @default("USD")
+  skippedReason    String?  @map("skipped_reason")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@index([reviewId])
+  @@map("review_usages")
 }
 
 model Finding {
